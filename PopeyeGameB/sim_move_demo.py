@@ -1,5 +1,5 @@
 import sys
-
+import  random
 from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QPixmap, QImage, QPalette, QBrush
@@ -15,12 +15,21 @@ class SimMoveDemo(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        oImage = QImage("images\\backround.png")
+        sImage = oImage.scaled(QSize(1920, 1080))  # resize Image to widgets size
+        palette = QPalette()
+        palette.setBrush(10, QBrush(sImage))  # 10 = Windowrole
+        self.setPalette(palette)
+
+
         self.pix1 = QPixmap('images\\Popeye.png')
         self.pix2 = QPixmap('images\\oliveOyl.png')
         self.pix3 = QPixmap('images\\Badzo.png')
+        self.pix4 = QPixmap('images\\Ladders.png')
         self.label1 = QLabel(self)
         self.label2 = QLabel(self)
         self.label3 = QLabel(self)
+        self.label4 = QLabel(self)
 
         self.hitFloor = False
         self.hitSide = False
@@ -35,7 +44,7 @@ class SimMoveDemo(QMainWindow):
         #self.timerP2.setInterval(2000)
         #self.timerP2.setSingleShot(True)
 
-        self.setWindowState(Qt.WindowMaximized)
+        self.setWindowState(Qt.WindowFullScreen)
         self.__init_ui__()
 
         self.key_notifier = KeyNotifier()
@@ -56,13 +65,18 @@ class SimMoveDemo(QMainWindow):
         font.setPointSize(40)
 
         self.label1.setPixmap(self.pix1)
-        self.label1.setGeometry(1000, 900, 50, 50)
+        self.label1.setGeometry(1000, 900, 75, 75)
 
         self.label2.setPixmap(self.pix2)
-        self.label2.setGeometry(50, 50, 50, 50)
+        self.label2.setGeometry(550, 250, 75, 100)
 
         self.label3.setPixmap(self.pix3)
-        self.label3.setGeometry(50, 400, 50, 50)
+        self.label3.setGeometry(50, 400, 85, 75)
+
+        self.label4.setPixmap(self.pix4)
+        x=random.randint(300, 1500)
+
+        self.label4.setGeometry(x,650, 90, 180)
 
         self.setWindowTitle('Popeye')
         self.show()
@@ -77,19 +91,19 @@ class SimMoveDemo(QMainWindow):
         rec1 = self.label1.geometry()
 
         if key == Qt.Key_Right:
-            self.label1.setGeometry(rec1.x() + 5, rec1.y(), rec1.width(), rec1.height())
+            self.label1.setGeometry(rec1.x() + 10, rec1.y(), rec1.width(), rec1.height())
         elif key == Qt.Key_Down:
-            self.label1.setGeometry(rec1.x(), rec1.y() + 5, rec1.width(), rec1.height())
+            self.label1.setGeometry(rec1.x(), rec1.y() + 10, rec1.width(), rec1.height())
         elif key == Qt.Key_Up:
-            self.label1.setGeometry(rec1.x(), rec1.y() - 5, rec1.width(), rec1.height())
+            self.label1.setGeometry(rec1.x(), rec1.y() - 10, rec1.width(), rec1.height())
         elif key == Qt.Key_Left:
-            self.label1.setGeometry(rec1.x() - 5, rec1.y(), rec1.width(), rec1.height())
+            self.label1.setGeometry(rec1.x() - 10, rec1.y(), rec1.width(), rec1.height())
 
     def moveOlive(self):
         rec2 = self.label2.geometry()
-        if (rec2.x() == 1880):
+        if (rec2.x() == 1300):
             self.hitSide = True
-        elif (rec2.x() == 0):
+        elif (rec2.x() == 550):
             self.hitSide = False
 
         if self.hitSide:
