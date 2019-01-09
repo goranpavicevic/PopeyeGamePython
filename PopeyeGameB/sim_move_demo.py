@@ -24,18 +24,36 @@ class SimMoveDemo(QMainWindow):
 
         self.pix1 = QPixmap('images\\Popeye.png')
         self.pix2 = QPixmap('images\\oliveOyl.png')
-        self.pix3 = QPixmap('images\\Badzo.png')
+
         self.pix4 = QPixmap('images\\Ladders.png')
+        self.pix5 = QPixmap('images\\Ladders.png')
+        self.pix6 = QPixmap('images\\Ladders.png')
+        self.pix7 = QPixmap('images\\Ladders.png')
+        self.pix3 = QPixmap('images\\Badzo.png')
+
         self.label1 = QLabel(self)
         self.label2 = QLabel(self)
-        self.label3 = QLabel(self)
         self.label4 = QLabel(self)
+        self.label5 = QLabel(self)
+        self.label6 = QLabel(self)
+        self.label7 = QLabel(self)
+        self.label3 = QLabel(self)
 
         self.hitFloor = False
         self.hitSide = False
 
-        self.hitSide2 = False;
-        self.hitFloor2 = False;
+        self.hitSide2 = False
+        self.LadderUPBadzo = False
+        self.PopeoSe = False
+        self.KolkoSePopeo = 0
+
+        self.LadderDownBadzo = False
+        self.SisaoDole=False
+        self.KolkoJeSisao=0
+        self.hitFloor2 = False
+        self.boolSkok=False
+
+        self.sprat=1;
         #self.timerP1 = QTimer(self)
         #self.timerP1.setInterval(2000)
         #self.timerP1.setSingleShot(True)
@@ -70,13 +88,31 @@ class SimMoveDemo(QMainWindow):
         self.label2.setPixmap(self.pix2)
         self.label2.setGeometry(550, 250, 75, 100)
 
-        self.label3.setPixmap(self.pix3)
-        self.label3.setGeometry(50, 400, 85, 75)
+
 
         self.label4.setPixmap(self.pix4)
-        x=random.randint(300, 1500)
+        self.randx=random.randint(300, 1500)
+        p=self.randx%10
+        self.merdevine1=self.randx-p
+        self.BoolBadzaMerdevine = False
+        self.label4.setGeometry(self.merdevine1,650, 90, 180)
 
-        self.label4.setGeometry(x,650, 90, 180)
+
+        self.label5.setPixmap(self.pix5)
+        self.randx2=random.randint(300, 1500)
+        p1=self.randx2%10
+        self.merdevine2=self.randx2-p1
+       # self.BoolBadzaMerdevine = False
+        self.label5.setGeometry(self.merdevine2,850, 90, 180)
+
+        self.label6.setPixmap(self.pix6)
+        self.label6.setGeometry(300, 460, 90, 180)
+
+        self.label7.setPixmap(self.pix6)
+        self.label7.setGeometry(1500, 460, 90, 180)
+
+        self.label3.setPixmap(self.pix3)
+        self.label3.setGeometry(300, 570, 85, 75)
 
         self.setWindowTitle('Popeye')
         self.show()
@@ -113,15 +149,157 @@ class SimMoveDemo(QMainWindow):
 
     def moveBadzo(self):
         rec3 = self.label3.geometry()
-        if(rec3.x() == 1880):
-            self.hitSide2 = True
-        elif(rec3.x() == 0):
-            self.hitSide2 = False
 
-        if self.hitSide:
-            self.label3.setGeometry(rec3.x() - 10, rec3.y() + 0, rec3.width(), rec3.height())
-        else:
-            self.label3.setGeometry(rec3.x() + 10, rec3.y() + 0, rec3.width(), rec3.height())
+        if(self.sprat==1):
+
+            self.boolSkok+=1
+            if(rec3.x() == 1500 ):
+                self.hitSide2 = True
+                self.LadderUPBadzo = self.BoolBadzaMerdevine
+                self.boolSkok += 1
+            elif(rec3.x() ==self.merdevine1): #or self.boolSkok==True):
+                self.LadderDownBadzo=self.BoolBadzaMerdevine
+            elif(rec3.x() == 300):
+                self.hitSide2 = False
+                self.LadderUPBadzo = self.BoolBadzaMerdevine
+
+
+            if self.LadderDownBadzo:
+                self.label3.setGeometry(rec3.x() - 0, rec3.y() + 10, rec3.width(), rec3.height())
+                self.KolkoJeSisao += 10
+                if (self.KolkoJeSisao == 190):
+                    self.KolkoJeSisao = 0
+                    self.SisaoDole = True
+                    self.LadderDownBadzo = False
+                    self.BoolBadzaMerdevine = random.randint(0, 1)
+                    self.sprat += 1
+
+            elif self.hitSide2:
+                self.label3.setGeometry(rec3.x() - 10, rec3.y() + 0, rec3.width(), rec3.height())
+                self.BoolBadzaMerdevine = random.randint(0, 1)
+                self.boolSkok = random.randint(0, 1)
+            elif self.LadderUPBadzo:
+                 self.label3.setGeometry(rec3.x() - 0, rec3.y() - 10, rec3.width(), rec3.height())
+                 self.KolkoSePopeo += 10
+                 if(self.KolkoSePopeo== 190):
+                    self.KolkoSePopeo =0
+                    self.SisaoDole=False
+                    self.LadderUPBadzo = False
+                    self.BoolBadzaMerdevine = random.randint(0, 1)
+                    self.sprat -= 1
+            elif self.hitSide2==False:
+                self.label3.setGeometry(rec3.x() + 10, rec3.y() + 0, rec3.width(), rec3.height())
+                self.BoolBadzaMerdevine = random.randint(0, 1)
+
+
+        elif(self.sprat==2):
+            if (rec3.x() == 1500):
+                self.hitSide2 = True
+            elif(rec3.x() == self.merdevine2): #or self.boolSkok == True):
+                self.LadderDownBadzo = self.BoolBadzaMerdevine
+            elif(rec3.x() == self.merdevine1):
+                 self.LadderUPBadzo = self.BoolBadzaMerdevine
+            elif (rec3.x() == 300):
+                self.hitSide2 = False
+                self.LadderUPBadzo = self.BoolBadzaMerdevine
+
+
+            if self.LadderDownBadzo:
+                self.label3.setGeometry(rec3.x() - 0, rec3.y() + 10, rec3.width(), rec3.height())
+                self.KolkoJeSisao += 10
+                if (self.KolkoJeSisao == 190):
+                    self.KolkoJeSisao = 0
+                    self.SisaoDole = True
+                    self.LadderDownBadzo = False
+                    self.BoolBadzaMerdevine = random.randint(0, 1)
+                    self.sprat += 1
+
+            elif self.hitSide2:
+                self.label3.setGeometry(rec3.x() - 10, rec3.y() + 0, rec3.width(), rec3.height())
+                self.BoolBadzaMerdevine = random.randint(0, 1)
+                self.boolSkok = random.randint(0, 1)
+            elif self.LadderUPBadzo:
+                self.label3.setGeometry(rec3.x() - 0, rec3.y() - 10, rec3.width(), rec3.height())
+                self.KolkoSePopeo += 10
+                if (self.KolkoSePopeo == 190):
+                    self.KolkoSePopeo = 0
+                    self.SisaoDole = False
+                    self.LadderUPBadzo = False
+                    self.BoolBadzaMerdevine = random.randint(0, 1)
+                    self.sprat -= 1
+
+            elif self.hitSide2 == False:
+                self.label3.setGeometry(rec3.x() + 10, rec3.y() + 0, rec3.width(), rec3.height())
+                self.BoolBadzaMerdevine = random.randint(0, 1)
+
+        elif (self.sprat == 3):
+            if (rec3.x() == 1500):
+                self.hitSide2 = True
+            #elif (rec3.x() == self.merdevine2):
+               # self.LadderDownBadzo = self.BoolBadzaMerdevine
+            elif (rec3.x() == self.merdevine2):
+                self.LadderUPBadzo = self.BoolBadzaMerdevine
+            elif (rec3.x() == 300):
+                self.hitSide2 = False
+                self.LadderUPBadzo = self.BoolBadzaMerdevine
+
+            if self.hitSide2:
+                self.label3.setGeometry(rec3.x() - 10, rec3.y() + 0, rec3.width(), rec3.height())
+                self.BoolBadzaMerdevine = random.randint(0, 1)
+
+
+            elif self.LadderUPBadzo:
+                self.label3.setGeometry(rec3.x() - 0, rec3.y() - 10, rec3.width(), rec3.height())
+                self.KolkoSePopeo += 10
+                if (self.KolkoSePopeo == 190):
+                    self.KolkoSePopeo = 0
+                    self.SisaoDole = False
+                    self.LadderUPBadzo = False
+                    self.BoolBadzaMerdevine = random.randint(0, 1)
+                    self.sprat -= 1
+
+            elif self.hitSide2 == False:
+                self.label3.setGeometry(rec3.x() + 10, rec3.y() + 0, rec3.width(), rec3.height())
+                self.BoolBadzaMerdevine = random.randint(0, 1)
+
+        elif (self.sprat == 0):
+            if (rec3.x() == 400 or rec3.x() == 1920):
+                self.hitSide2 = True
+            elif (rec3.x() == 300 or rec3.x() == 1500 ):
+                self.LadderDownBadzo = self.BoolBadzaMerdevine
+          #  elif (rec3.x() == self.merdevine1):
+               # self.LadderUPBadzo = self.BoolBadzaMerdevine
+            elif (rec3.x() == 0 or rec3.x() == 1300):
+                self.hitSide2 = False
+              #  self.LadderUPBadzo = self.BoolBadzaMerdevine
+
+            if self.hitSide2:
+                self.label3.setGeometry(rec3.x() - 10, rec3.y() + 0, rec3.width(), rec3.height())
+                self.BoolBadzaMerdevine = random.randint(0, 1)
+
+            elif self.LadderDownBadzo:
+                self.label3.setGeometry(rec3.x() - 0, rec3.y() + 10, rec3.width(), rec3.height())
+                self.KolkoJeSisao += 10
+                if (self.KolkoJeSisao == 190):
+                    self.KolkoJeSisao = 0
+                    self.SisaoDole = True
+                    self.LadderDownBadzo = False
+                    self.BoolBadzaMerdevine = random.randint(0, 1)
+                    self.sprat += 1
+
+            elif self.LadderUPBadzo:
+                self.label3.setGeometry(rec3.x() - 0, rec3.y() - 10, rec3.width(), rec3.height())
+                self.KolkoSePopeo += 10
+                if (self.KolkoSePopeo == 190):
+                    self.KolkoSePopeo = 0
+                    self.SisaoDole = False
+                    self.LadderUPBadzo = False
+                    self.BoolBadzaMerdevine = random.randint(0, 1)
+                    self.sprat -= 1
+
+            elif self.hitSide2 == False:
+                self.label3.setGeometry(rec3.x() + 10, rec3.y() + 0, rec3.width(), rec3.height())
+                self.BoolBadzaMerdevine = random.randint(0, 1)
 
     def closeEvent(self, event):
         self.key_notifier.die()
