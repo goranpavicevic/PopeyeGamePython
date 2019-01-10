@@ -53,7 +53,7 @@ class SimMoveDemo(QMainWindow):
         self.hitFloor2 = False
         self.boolSkok=False
 
-        self.sprat=1;
+        self.sprat=1
         #self.timerP1 = QTimer(self)
         #self.timerP1.setInterval(2000)
         #self.timerP1.setSingleShot(True)
