@@ -30,6 +30,7 @@ class SimMoveDemo(QMainWindow):
         self.pix6 = QPixmap('images\\Ladders.png')
         self.pix7 = QPixmap('images\\Ladders.png')
         self.pix3 = QPixmap('images\\Badzo.png')
+        self.pix30 = QPixmap('images\\BadzoR.png')
 
         self.label1 = QLabel(self)
         self.label2 = QLabel(self)
@@ -38,6 +39,7 @@ class SimMoveDemo(QMainWindow):
         self.label6 = QLabel(self)
         self.label7 = QLabel(self)
         self.label3 = QLabel(self)
+        self.label30 = QLabel(self)
 
         self.hitFloor = False
         self.hitSide = False
@@ -114,6 +116,9 @@ class SimMoveDemo(QMainWindow):
         self.label3.setPixmap(self.pix3)
         self.label3.setGeometry(300, 570, 85, 75)
 
+       # self.label30.setPixmap(self.pix30)
+        #self.label30.setGeometry(300, 570, 85, 75)
+
         self.setWindowTitle('Popeye')
         self.show()
 
@@ -148,6 +153,10 @@ class SimMoveDemo(QMainWindow):
             self.label2.setGeometry(rec2.x()+10, rec2.y() + 0, rec2.width(), rec2.height())
 
     def moveBadzo(self):
+        #if(self.hitSide):
+         #   rec3 = self.label3.geometry()
+        #elif(self.hitSide==False):
+          #  rec3 = self.label30.geometry()
         rec3 = self.label3.geometry()
 
         if(self.sprat==1):
@@ -161,7 +170,7 @@ class SimMoveDemo(QMainWindow):
                 self.LadderDownBadzo=self.BoolBadzaMerdevine
             elif(rec3.x() == 300):
                 self.hitSide2 = False
-                self.LadderUPBadzo = self.BoolBadzaMerdevine
+                self.LadderUPBadzo = False
 
 
             if self.LadderDownBadzo:
@@ -201,7 +210,7 @@ class SimMoveDemo(QMainWindow):
                  self.LadderUPBadzo = self.BoolBadzaMerdevine
             elif (rec3.x() == 300):
                 self.hitSide2 = False
-                self.LadderUPBadzo = self.BoolBadzaMerdevine
+                self.LadderUPBadzo = False
 
 
             if self.LadderDownBadzo:
@@ -241,7 +250,7 @@ class SimMoveDemo(QMainWindow):
                 self.LadderUPBadzo = self.BoolBadzaMerdevine
             elif (rec3.x() == 300):
                 self.hitSide2 = False
-                self.LadderUPBadzo = self.BoolBadzaMerdevine
+                self.LadderUPBadzo = False
 
             if self.hitSide2:
                 self.label3.setGeometry(rec3.x() - 10, rec3.y() + 0, rec3.width(), rec3.height())
