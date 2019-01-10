@@ -85,7 +85,7 @@ class SimMoveDemo(QMainWindow):
         font.setPointSize(40)
 
         self.label1.setPixmap(self.pix1)
-        self.label1.setGeometry(1000, 900, 75, 75)
+        self.label1.setGeometry(1000, 953, 75, 75)
 
         self.label2.setPixmap(self.pix2)
         self.label2.setGeometry(550, 250, 75, 100)
@@ -132,13 +132,59 @@ class SimMoveDemo(QMainWindow):
         rec1 = self.label1.geometry()
 
         if key == Qt.Key_Right:
-            self.label1.setGeometry(rec1.x() + 10, rec1.y(), rec1.width(), rec1.height())
+            if (rec1.x() < 1800 and (rec1.y() < 960 and rec1.y() > 935) or (rec1.y() > 755 and rec1.y() < 780) or (
+                    rec1.y() > 550 and rec1.y() < 575) or ((rec1.y() > 371 and rec1.y() < 381) and (rec1.x() < 450 or rec1.x() >= 1400))):
+                self.label1.setGeometry(rec1.x() + 10, rec1.y(), rec1.width(), rec1.height())
         elif key == Qt.Key_Down:
-            self.label1.setGeometry(rec1.x(), rec1.y() + 10, rec1.width(), rec1.height())
+            if (rec1.x() > 50 and rec1.x() < 305 and rec1.y() < 952):
+                if ((rec1.x() >= 300 and rec1.x() <= 302) and (rec1.y() <= 952 and rec1.y() >= 915)):
+                    self.label1.setGeometry(rec1.x() + 10, rec1.y() + 10, rec1.width(), rec1.height())
+                if ((rec1.x() >= 270 and rec1.x() <= 300) and (rec1.y() <= 950 and rec1.y() >= 915)):
+                    self.label1.setGeometry(rec1.x() + 10, rec1.y() + 10, rec1.width(), rec1.height())
+                elif ((rec1.x() >= 238 and rec1.x() < 270) and (rec1.y() < 915 and rec1.y() >= 878)):
+                    self.label1.setGeometry(rec1.x() + 10, rec1.y() + 10, rec1.width(), rec1.height())
+                elif (rec1.x() >= 203 and rec1.x() < 240 and (rec1.y() < 883 and rec1.y() >= 841)):
+                    self.label1.setGeometry(rec1.x() + 10, rec1.y() + 10, rec1.width(), rec1.height())
+                elif (rec1.x() >= 170 and rec1.x() < 203 and (rec1.y() < 853 and rec1.y() >= 805)):
+                    self.label1.setGeometry(rec1.x() + 10, rec1.y() + 10, rec1.width(), rec1.height())
+                elif ((rec1.x() >= 120 and rec1.x() < 170) and (rec1.y() < 845 and rec1.y() >= 750)):
+                    self.label1.setGeometry(rec1.x() + 10, rec1.y() + 10, rec1.width(), rec1.height())
+            if (rec1.y() < 947 and rec1.y() <= 760 and(rec1.x() > self.merdevine1 and rec1.x() < self.merdevine1 + 50) and rec1.y() >= 380):
+                self.label1.setGeometry(rec1.x(), rec1.y() + 10, rec1.width(), rec1.height())
+            if (rec1.y() >750 and (rec1.x() > self.merdevine2 and rec1.x() < self.merdevine2 + 50) and rec1.y() <= 950):
+                self.label1.setGeometry(rec1.x(), rec1.y() + 10, rec1.width(), rec1.height())
+            if ((rec1.x() <= 1530 and rec1.x() >= 1500) and (rec1.y() <= 560 and rec1.y() >= 370)):
+                self.label1.setGeometry(rec1.x(), rec1.y() + 10, rec1.width(), rec1.height())
+            if ((rec1.x() <= 330 and rec1.x() >= 300) and (rec1.y() <= 560 and rec1.y() >= 370)):
+                self.label1.setGeometry(rec1.x(), rec1.y() + 10, rec1.width(), rec1.height())
+
         elif key == Qt.Key_Up:
-            self.label1.setGeometry(rec1.x(), rec1.y() - 10, rec1.width(), rec1.height())
+            if (rec1.x() > 50 and rec1.x() <= 303):
+                if ((rec1.x() >= 300 and rec1.x() <= 302) and (rec1.y() <= 952 and rec1.y() >= 915)):
+                    self.label1.setGeometry(rec1.x() - 10, rec1.y() - 10, rec1.width(), rec1.height())
+                if ((rec1.x() >= 270 and rec1.x() <= 300) and (rec1.y() <= 950 and rec1.y() >= 915)):
+                    self.label1.setGeometry(rec1.x() - 10, rec1.y() - 10, rec1.width(), rec1.height())
+                elif ((rec1.x() >= 238 and rec1.x() < 270) and (rec1.y() < 915 and rec1.y() >= 878)):
+                    self.label1.setGeometry(rec1.x() - 10, rec1.y() - 10, rec1.width(), rec1.height())
+                elif (rec1.x() >= 203 and rec1.x() < 240 and (rec1.y() < 883 and rec1.y() >= 841)):
+                    self.label1.setGeometry(rec1.x() - 10, rec1.y() - 10, rec1.width(), rec1.height())
+                elif (rec1.x() >= 170 and rec1.x() < 203 and (rec1.y() < 853 and rec1.y() >= 805)):
+                    self.label1.setGeometry(rec1.x() - 10, rec1.y() - 10, rec1.width(), rec1.height())
+                elif ((rec1.x() >= 120 and rec1.x() < 170) and (rec1.y() < 845 and rec1.y() >= 750)):
+                    self.label1.setGeometry(rec1.x() - 10, rec1.y() - 10, rec1.width(), rec1.height())
+            if (rec1.y() > 50 and (rec1.x() > self.merdevine1 and rec1.x() < self.merdevine1 + 50) and rec1.y() >= 570): #and rec1.y() > 380):
+                self.label1.setGeometry(rec1.x(), rec1.y() - 10, rec1.width(), rec1.height())
+            if (rec1.y() > 50 and (rec1.x() > self.merdevine2 and rec1.x() < self.merdevine2 + 50) and rec1.y() >= 780):
+                self.label1.setGeometry(rec1.x(), rec1.y() - 10, rec1.width(), rec1.height())
+            if ((rec1.x() <= 1530 and rec1.x() >= 1500) and (rec1.y() <= 580 and rec1.y() >= 385)):
+                self.label1.setGeometry(rec1.x(), rec1.y() - 10, rec1.width(), rec1.height())
+            if ((rec1.x() <= 330 and rec1.x() >= 300) and (rec1.y() <= 580 and rec1.y() >= 385)):
+                self.label1.setGeometry(rec1.x(), rec1.y() - 10, rec1.width(), rec1.height())
+
         elif key == Qt.Key_Left:
-            self.label1.setGeometry(rec1.x() - 10, rec1.y(), rec1.width(), rec1.height())
+            if (rec1.x() > 50 and ((rec1.y() < 960 and rec1.y() > 935) or (rec1.y() > 755 and rec1.y() < 780) or (
+                    rec1.y() > 550 and rec1.y() < 575) or ((rec1.y() > 371 and rec1.y() < 381) and (rec1.x() <= 450 or rec1.x() >= 1450)))):
+                self.label1.setGeometry(rec1.x() - 10, rec1.y(), rec1.width(), rec1.height())
 
     def moveOlive(self):
         rec2 = self.label2.geometry()
