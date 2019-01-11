@@ -181,11 +181,11 @@ class SimMoveDemo(QMainWindow):
         rec1 = self.label1.geometry()
 
         if key == Qt.Key_Right or key == Qt.Key_Left:
-            if rec1.y() < 952 and rec1.y() > 790:
+            if rec1.y() < 952 and rec1.y() > 780:
+                return
+            elif (rec1.y() < 760 and rec1.y() > 580):
                 return
 
-        # donja leva stepenica: kada se vratimo dole, mozemo krenuti gore iz nedozvoljene pozicije, verovatno ima veze sa y
-        # if(rec1.y() )
         if ((rec1.x() >= 270 and rec1.x() <= 300) and (rec1.y() >= 755 and rec1.y() <= 775)):
             self.hitLeftUpStairs = True
             self.hitLeftUpStairsTop = False
@@ -195,7 +195,7 @@ class SimMoveDemo(QMainWindow):
         if ((rec1.x() >= 1570 and rec1.x() <= 1610) and (rec1.y() >= 755 and rec1.y() <= 775)):
             self.hitRightUpStairs = True
             self.hitRightUpStairsTop = False
-        if ((rec1.x() >= 1760 and rec1.x() <= 1800) and (rec1.y() >= 550 and rec1.y() <= 570)):
+        if ((rec1.x() >= 1780 and rec1.x() <= 1820) and (rec1.y() >= 540 and rec1.y() <= 570)):
             self.hitRightUpStairsTop = True
             self.hitRightUpStairs = False
         if ((rec1.x() >= 270 and rec1.x() <= 300) and (rec1.y() >= 950 and rec1.y() <= 965)):
@@ -204,10 +204,10 @@ class SimMoveDemo(QMainWindow):
         if ((rec1.x() >= 80 and rec1.x() <= 110) and (rec1.y() >= 755 and rec1.y() <= 775)):
             self.hitLeftDownStairsTop = True
             self.hitLeftDownStairs = False
-        if((rec1.x() >= 1570 and rec1.x() <= 1610) and (rec1.y() > 950 and rec1.y() <= 965)):
+        if ((rec1.x() >= 1570 and rec1.x() <= 1610) and (rec1.y() > 950 and rec1.y() <= 965)):
             self.hitRightDownStairs = True
             self.hitRightDownStairsTop = False
-        if((rec1.x() >= 1760 and rec1.x() <= 1800) and (rec1.y() >= 755 and rec1.y() <= 775)):
+        if ((rec1.x() >= 1760 and rec1.x() <= 1820) and (rec1.y() >= 755 and rec1.y() <= 775)):
             self.hitRightDownStairsTop = True
             self.hitRightDownStairs = False
 
@@ -216,15 +216,15 @@ class SimMoveDemo(QMainWindow):
                 self.hitLeftUpStairs = True
             else:
                 self.hitLeftUpStairs = False
-            if ((rec1.x() >= 80 and rec1.x() <= 100) and (rec1.y() >= 550 and rec1.y() <= 570)):
+            if ((rec1.x() >= 80 and rec1.x() <= 100) and (rec1.y() >= 540 and rec1.y() <= 570)):
                 self.hitLeftUpStairsTop = True
             else:
                 self.hitLeftUpStairsTop = False
-            if ((rec1.x() >= 1760 and rec1.x() <= 1800) and (rec1.y() >= 550 and rec1.y() <= 570)):
+            if ((rec1.x() >= 1780 and rec1.x() <= 1820) and (rec1.y() >= 540 and rec1.y() <= 570)):
                 self.hitRightUpStairsTop = True
             else:
                 self.hitRightUpStairsTop = False
-            if ((rec1.x() >= 1570 and rec1.x() <= 1610) and (rec1.y() >= 755 and rec1.y() <= 775)):
+            if ((rec1.x() >= 1570 and rec1.x() <= 1610) and (rec1.y() >= 755 and rec1.y() <= 770)):
                 self.hitRightUpStairs = True
             else:
                 self.hitRightUpStairs = False
@@ -236,30 +236,38 @@ class SimMoveDemo(QMainWindow):
                 self.hitLeftDownStairsTop = True
             else:
                 self.hitLeftDownStairsTop = False
-            if ((rec1.x() >= 1600 and rec1.x() <= 1610) and (rec1.y() > 950 and rec1.y() <= 965)):
+            if ((rec1.x() >= 1570 and rec1.x() <= 1610) and (rec1.y() >= 950 and rec1.y() <= 965)):
                 self.hitRightDownStairs = True
             else:
                 self.hitRightDownStairs = False
-            if ((rec1.x() >= 1770 and rec1.x() <= 1800) and (rec1.y() >= 755 and rec1.y() <= 775)):
+            if ((rec1.x() >= 1760 and rec1.x() <= 1820) and (rec1.y() >= 755 and rec1.y() <= 770)):
                 self.hitRightDownStairsTop = True
             else:
                 self.hitRightDownStairsTop = False
 
-            if (rec1.x() < 1800 and (rec1.y() <= 960 and rec1.y() > 935) or (rec1.y() > 755 and rec1.y() < 780) or (rec1.y() > 550 and rec1.y() < 575) or ((rec1.y() > 371 and rec1.y() < 390) and (rec1.x() < 450 or rec1.x() >= 1400))):
+            if (rec1.x() < 1800 and (rec1.y() <= 960 and rec1.y() > 935) or (rec1.y() > 755 and rec1.y() < 780) or (
+                    rec1.y() > 550 and rec1.y() < 575) or (
+                    (rec1.y() > 371 and rec1.y() < 390) and (rec1.x() < 450 or rec1.x() >= 1400))):
                 self.label1.setGeometry(rec1.x() + self.popeyeStep, rec1.y(), rec1.width(), rec1.height())
         elif key == Qt.Key_Down:
-            if(rec1.y() <= 953):
+            if (rec1.y() <= 953):
                 if (self.hitLeftUpStairs == False and self.hitLeftUpStairsTop == True):
-                    self.label1.setGeometry(rec1.x() + self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(), rec1.height())
+                    self.label1.setGeometry(rec1.x() + self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(),
+                                            rec1.height())
                 if (self.hitLeftDownStairs == False and self.hitLeftDownStairsTop == True):
-                    self.label1.setGeometry(rec1.x() + self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(), rec1.height())
+                    self.label1.setGeometry(rec1.x() + self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(),
+                                            rec1.height())
                 if (self.hitRightUpStairs == False and self.hitRightUpStairsTop == True):
-                    self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(), rec1.height())
+                    self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(),
+                                            rec1.height())
                 if (self.hitRightDownStairs == False and self.hitRightDownStairsTop == True):
-                    self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(), rec1.height())
-                if (rec1.y() < 947 and rec1.y() <= 760 and (rec1.x() > self.merdevine1 and rec1.x() < self.merdevine1 + 50) and rec1.y() >= 380):
+                    self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(),
+                                            rec1.height())
+                if (rec1.y() < 947 and rec1.y() <= 760 and (
+                        rec1.x() > self.merdevine1 and rec1.x() < self.merdevine1 + 50) and rec1.y() >= 380):
                     self.label1.setGeometry(rec1.x(), rec1.y() + self.popeyeStep, rec1.width(), rec1.height())
-                if (rec1.y() > 750 and (rec1.x() > self.merdevine2 and rec1.x() < self.merdevine2 + 50) and rec1.y() <= 950):
+                if (rec1.y() > 750 and (
+                        rec1.x() > self.merdevine2 and rec1.x() < self.merdevine2 + 50) and rec1.y() <= 950):
                     self.label1.setGeometry(rec1.x(), rec1.y() + self.popeyeStep, rec1.width(), rec1.height())
                 if ((rec1.x() <= 1530 and rec1.x() >= 1500) and (rec1.y() <= 560 and rec1.y() >= 370)):
                     self.label1.setGeometry(rec1.x(), rec1.y() + self.popeyeStep, rec1.width(), rec1.height())
@@ -268,16 +276,22 @@ class SimMoveDemo(QMainWindow):
 
         elif key == Qt.Key_Up:
             if (self.hitLeftUpStairs == True and self.hitLeftUpStairsTop == False):
-                self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y() - self.popeyeStep, rec1.width(), rec1.height())
+                self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y() - self.popeyeStep, rec1.width(),
+                                        rec1.height())
             if (self.hitLeftDownStairs == True and self.hitLeftDownStairsTop == False):
-                self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y() - self.popeyeStep, rec1.width(), rec1.height())
+                self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y() - self.popeyeStep, rec1.width(),
+                                        rec1.height())
             if (self.hitRightUpStairs == True and self.hitRightUpStairsTop == False):
-                self.label1.setGeometry(rec1.x() + self.popeyeStep, rec1.y() - self.popeyeStep, rec1.width(), rec1.height())
+                self.label1.setGeometry(rec1.x() + self.popeyeStep, rec1.y() - self.popeyeStep, rec1.width(),
+                                        rec1.height())
             if (self.hitRightDownStairs == True and self.hitRightDownStairsTop == False):
-                self.label1.setGeometry(rec1.x() + self.popeyeStep, rec1.y() - self.popeyeStep, rec1.width(), rec1.height())
-            if (rec1.y() >= 570 and (rec1.x() > self.merdevine1 and rec1.x() < self.merdevine1 + 50) and rec1.y() <= 780):
+                self.label1.setGeometry(rec1.x() + self.popeyeStep, rec1.y() - self.popeyeStep, rec1.width(),
+                                        rec1.height())
+            if (rec1.y() >= 570 and (
+                    rec1.x() > self.merdevine1 and rec1.x() < self.merdevine1 + 50) and rec1.y() <= 780):
                 self.label1.setGeometry(rec1.x(), rec1.y() - self.popeyeStep, rec1.width(), rec1.height())
-            if (rec1.y() > 50 and (rec1.x() > self.merdevine2 and rec1.x() < self.merdevine2 + 50) and rec1.y() >= 780 and rec1.y() <= 960):
+            if (rec1.y() > 50 and (
+                    rec1.x() > self.merdevine2 and rec1.x() < self.merdevine2 + 50) and rec1.y() >= 780 and rec1.y() <= 960):
                 self.label1.setGeometry(rec1.x(), rec1.y() - self.popeyeStep, rec1.width(), rec1.height())
             if ((rec1.x() <= 1530 and rec1.x() >= 1500) and (rec1.y() <= 580 and rec1.y() >= 385)):
                 self.label1.setGeometry(rec1.x(), rec1.y() - self.popeyeStep, rec1.width(), rec1.height())
@@ -289,11 +303,11 @@ class SimMoveDemo(QMainWindow):
                 self.hitLeftUpStairs = True
             else:
                 self.hitLeftUpStairs = False
-            if ((rec1.x() >= 80 and rec1.x() <= 110) and (rec1.y() >= 550 and rec1.y() <= 570)):
+            if ((rec1.x() >= 80 and rec1.x() <= 110) and (rec1.y() >= 540 and rec1.y() <= 570)):
                 self.hitLeftUpStairsTop = True
             else:
                 self.hitLeftUpStairsTop = False
-            if ((rec1.x() >= 1760 and rec1.x() <= 1800) and (rec1.y() >= 550 and rec1.y() <= 570)):
+            if ((rec1.x() >= 1780 and rec1.x() <= 1820) and (rec1.y() >= 540 and rec1.y() <= 570)):
                 self.hitRightUpStairsTop = True
             else:
                 self.hitRightUpStairsTop = False
@@ -309,19 +323,19 @@ class SimMoveDemo(QMainWindow):
                 self.hitLeftDownStairsTop = True
             else:
                 self.hitLeftDownStairsTop = False
-            if ((rec1.x() >= 1570 and rec1.x() <= 1610) and (rec1.y() > 950 and rec1.y() <= 965)):
+            if ((rec1.x() >= 1570 and rec1.x() <= 1610) and (rec1.y() >= 950 and rec1.y() <= 965)):
                 self.hitRightDownStairs = True
             else:
                 self.hitRightDownStairs = False
-            if ((rec1.x() >= 1760 and rec1.x() <= 1800) and (rec1.y() >= 755 and rec1.y() <= 775)):
+            if ((rec1.x() >= 1760 and rec1.x() <= 1820) and (rec1.y() >= 755 and rec1.y() <= 775)):
                 self.hitRightDownStairsTop = True
             else:
                 self.hitRightDownStairsTop = False
             if (rec1.x() > 50 and ((rec1.y() <= 960 and rec1.y() > 935) or (rec1.y() > 755 and rec1.y() < 780) or (
-                            rec1.y() > 550 and rec1.y() < 575) or (
-                (rec1.y() > 371 and rec1.y() < 390) and (rec1.x() <= 450 or rec1.x() >= 1450)))):
+                    rec1.y() > 550 and rec1.y() < 575) or (
+                                           (rec1.y() > 371 and rec1.y() < 390) and (
+                                           rec1.x() <= 450 or rec1.x() >= 1450)))):
                 self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y(), rec1.width(), rec1.height())
-
 
     def moveOlive(self):
         rec2 = self.label2.geometry()
@@ -507,7 +521,6 @@ class SimMoveDemo(QMainWindow):
             elif self.hitSide2 == False:
                 self.label3.setGeometry(rec3.x() + 10, rec3.y() + 0, rec3.width(), rec3.height())
                 self.BoolBadzaMerdevine = random.randint(0, 1)
-
 
     def timer_func(self):
         x = random.randint(300, 1500)
