@@ -10,6 +10,7 @@ from oliveMovement import OliveMovement
 from badzoMovement import BadzoMovement
 from heartMovement import HeartMovement
 from random import randint
+br = 2
 
 class SimMoveDemo(QMainWindow):
     def __init__(self):
@@ -41,6 +42,8 @@ class SimMoveDemo(QMainWindow):
         self.label7 = QLabel(self)
         self.label3 = QLabel(self)
         self.label30 = QLabel(self)
+        self.labelScore = QLabel(self)
+        self.labelLifes = QLabel(self)
 
         self.hitFloor = False
         self.hitSide = False
@@ -70,7 +73,7 @@ class SimMoveDemo(QMainWindow):
 
         self.sprat = 1
         self.setWindowState(Qt.WindowFullScreen)
-        self.__init_ui__()
+        self.__init_ui__(br)
 
         self.key_notifier = KeyNotifier()
         self.key_notifier.key_signal.connect(self.__update_position__)
@@ -88,7 +91,7 @@ class SimMoveDemo(QMainWindow):
         self.heartMovement.heartMovementSignal.connect(self.generateHeart)
         self.heartMovement.start()
 
-    def __init_ui__(self):
+    def __init_ui__(self,br):
 
         font = QtGui.QFont()
         font.setPointSize(40)
@@ -119,6 +122,20 @@ class SimMoveDemo(QMainWindow):
 
         self.label3.setPixmap(self.pix3)
         self.label3.setGeometry(300, 570, 85, 75)
+
+        br += 1
+
+        font = QtGui.QFont()
+        font.setPointSize(30)
+
+        self.labelScore.setText(str(0))
+        self.labelScore.setGeometry(1700, 202, 100, 100)
+        self.labelScore.setFont(font)
+
+        self.labelLifes.setText(str(br))
+        self.labelLifes.setGeometry(1700, 162, 100, 100)
+        self.labelLifes.setFont(font)
+
 
         self.setWindowTitle('Popeye')
         self.show()
