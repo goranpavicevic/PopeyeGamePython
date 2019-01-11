@@ -4,6 +4,8 @@ from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QPixmap, QImage, QPalette, QBrush
 from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QMainWindow
+from PyQt5.QtCore import QThread,QObject,pyqtSignal,pyqtSlot
+import time
 
 from key_notifier import KeyNotifier
 from oliveMovement import OliveMovement
@@ -31,6 +33,7 @@ class SimMoveDemo(QMainWindow):
         self.pix3 = QPixmap('images\\Badzo.png')
         self.pixHeart = QPixmap('images\\heart.png')
         self.pix30 = QPixmap('images\\BadzoR.png')
+        self.pixForce = QPixmap('images\\force.png')
         self.hearts = []
 
         self.label1 = QLabel(self)
@@ -41,7 +44,9 @@ class SimMoveDemo(QMainWindow):
         self.label7 = QLabel(self)
         self.label3 = QLabel(self)
         self.label30 = QLabel(self)
-
+        self.labelforce=QLabel(self)
+        self.timerP1 = QTimer(self)
+        self.timerP2 = QTimer(self)
         self.hitFloor = False
         self.hitSide = False
 
@@ -122,6 +127,13 @@ class SimMoveDemo(QMainWindow):
 
         self.setWindowTitle('Popeye')
         self.show()
+
+        self.labelforce.setPixmap(self.pixForce)
+        self.timerP1.start(20000)
+        self.timerP1.timeout.connect(self.timer_func)
+
+
+
 
     def keyPressEvent(self, event):
         self.key_notifier.add_key(event.key())
@@ -459,6 +471,18 @@ class SimMoveDemo(QMainWindow):
             elif self.hitSide2 == False:
                 self.label3.setGeometry(rec3.x() + 10, rec3.y() + 0, rec3.width(), rec3.height())
                 self.BoolBadzaMerdevine = random.randint(0, 1)
+
+
+    def timer_func(self):
+        x = random.randint(300, 1500)
+        self.labelforce.setGeometry(x, 780, 72, 56)
+        self.labelforce.show()
+        self.timerP2.start(10000)
+        self.timerP2.timeout.connect(self.hide_force)
+
+    def hide_force(self):
+        self.labelforce.hide()
+        self.labelforce.destroy()
 
     def closeEvent(self, event):
         self.key_notifier.die()
