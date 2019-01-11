@@ -8,7 +8,8 @@ from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QMainWindow
 from key_notifier import KeyNotifier
 from oliveMovement import OliveMovement
 from badzoMovement import BadzoMovement
-
+from heartMovement import HeartMovement
+from random import randint
 
 class SimMoveDemo(QMainWindow):
     def __init__(self):
@@ -28,7 +29,9 @@ class SimMoveDemo(QMainWindow):
         self.pix6 = QPixmap('images\\Ladders.png')
         self.pix7 = QPixmap('images\\Ladders.png')
         self.pix3 = QPixmap('images\\Badzo.png')
+        self.pixHeart = QPixmap('images\\heart.png')
         self.pix30 = QPixmap('images\\BadzoR.png')
+        self.hearts = []
 
         self.label1 = QLabel(self)
         self.label2 = QLabel(self)
@@ -80,6 +83,10 @@ class SimMoveDemo(QMainWindow):
         self.badzoMovement = BadzoMovement()
         self.badzoMovement.badzoMovementSignal.connect(self.moveBadzo)
         self.badzoMovement.start()
+
+        self.heartMovement = HeartMovement()
+        self.heartMovement.heartMovementSignal.connect(self.generateHeart)
+        self.heartMovement.start()
 
     def __init_ui__(self):
 
@@ -270,15 +277,32 @@ class SimMoveDemo(QMainWindow):
 
     def moveOlive(self):
         rec2 = self.label2.geometry()
-        if (rec2.x() == 1300):
+
+        if rec2.x() == 1300:
             self.hitSide = True
-        elif (rec2.x() == 550):
+        elif rec2.x() == 550:
             self.hitSide = False
 
+        a = randint(0, 1000)
+        if a % 125 == 0:
+            heart = QLabel(self)
+            heart.setPixmap(self.pixHeart)
+            heart.setGeometry(rec2.x(), rec2.y() + 50, 30, 26)
+            self.hearts.append(heart)
+            self.hearts[len(self.hearts) - 1].setPixmap(self.pixHeart)
+            self.hearts[len(self.hearts) - 1].setGeometry(rec2.x(), rec2.y(), 30, 26)
+            self.hearts[len(self.hearts) - 1].show()
+
         if self.hitSide:
-            self.label2.setGeometry(rec2.x() - self.popeyeStep, rec2.y() + 0, rec2.width(), rec2.height())
+            self.label2.setGeometry(rec2.x() - 10, rec2.y() + 0, rec2.width(), rec2.height())
         else:
-            self.label2.setGeometry(rec2.x() + self.popeyeStep, rec2.y() + 0, rec2.width(), rec2.height())
+            self.label2.setGeometry(rec2.x() + 10, rec2.y() + 0, rec2.width(), rec2.height())
+
+    def generateHeart(self):
+        for i in range(len(self.hearts)):
+            rec5 = self.hearts[i].geometry()
+            self.hearts[i].setGeometry(rec5.x(), rec5.y() + 4, rec5.width(), rec5.height())
+
 
     def moveBadzo(self):
         # if(self.hitSide):
