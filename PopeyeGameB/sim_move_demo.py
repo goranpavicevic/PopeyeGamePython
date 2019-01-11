@@ -3,6 +3,7 @@ import random
 from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QPixmap, QImage, QPalette, QBrush
+from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QMainWindow, QProgressBar
 from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QMainWindow
 from PyQt5.QtCore import QThread,QObject,pyqtSignal,pyqtSlot
 import time
@@ -12,6 +13,8 @@ from oliveMovement import OliveMovement
 from badzoMovement import BadzoMovement
 from heartMovement import HeartMovement
 from random import randint
+br = 2
+brLevel = 0
 
 class SimMoveDemo(QMainWindow):
     def __init__(self):
@@ -44,6 +47,11 @@ class SimMoveDemo(QMainWindow):
         self.label7 = QLabel(self)
         self.label3 = QLabel(self)
         self.label30 = QLabel(self)
+        self.labelScore = QLabel(self)
+        self.labelLifes = QLabel(self)
+        self.labelLevel = QLabel(self)
+        self.pBar = QProgressBar(self)
+
         self.labelforce=QLabel(self)
         self.timerP1 = QTimer(self)
         self.timerP2 = QTimer(self)
@@ -75,7 +83,7 @@ class SimMoveDemo(QMainWindow):
 
         self.sprat = 1
         self.setWindowState(Qt.WindowFullScreen)
-        self.__init_ui__()
+        self.__init_ui__(br,brLevel)
 
         self.key_notifier = KeyNotifier()
         self.key_notifier.key_signal.connect(self.__update_position__)
@@ -93,7 +101,7 @@ class SimMoveDemo(QMainWindow):
         self.heartMovement.heartMovementSignal.connect(self.generateHeart)
         self.heartMovement.start()
 
-    def __init_ui__(self):
+    def __init_ui__(self,br,brLevel):
 
         font = QtGui.QFont()
         font.setPointSize(40)
@@ -125,16 +133,43 @@ class SimMoveDemo(QMainWindow):
         self.label3.setPixmap(self.pix3)
         self.label3.setGeometry(300, 570, 85, 75)
 
+
+
+        br += 1
+        brLevel += 1
+        font = QtGui.QFont()
+        font.setPointSize(30)
+
+        self.labelScore.setText(str(0))
+        self.labelScore.setGeometry(1700, 202, 100, 100)
+        self.labelScore.setFont(font)
+
+        self.labelLifes.setText(str(br))
+        self.labelLifes.setGeometry(1700, 162, 100, 100)
+        self.labelLifes.setFont(font)
+
+        font.setPointSize(20)
+        self.labelLevel.setText(str(brLevel))
+        self.labelLevel.setGeometry(300, 125, 100, 100)
+        self.labelLevel.setFont(font)
+
+        self.pBar.setGeometry(140, 250, 300, 30)
+
         self.setWindowTitle('Popeye')
         self.show()
+
+    def progressing(self):
+        self.step += 1
+        self.pBar.setValue(self.step)
+        if self.step == 100:
+            self.level_no += 1
+            self.step = 0
+            self.pbar.setValue(self.step)
+            self.labelLevel.setText(str(self.lev) + str(self.level_no))
 
         self.labelforce.setPixmap(self.pixForce)
         self.timerP1.start(20000)
         self.timerP1.timeout.connect(self.timer_func)
-
-
-
-
     def keyPressEvent(self, event):
         self.key_notifier.add_key(event.key())
 
