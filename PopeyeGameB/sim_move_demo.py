@@ -157,6 +157,9 @@ class SimMoveDemo(QMainWindow):
 
         self.setWindowTitle('Popeye')
         self.show()
+        self.labelforce.setPixmap(self.pixForce)
+        self.timerP1.start(20000)
+        self.timerP1.timeout.connect(self.timer_func)
 
     def progressing(self):
         self.step += 1
@@ -167,9 +170,7 @@ class SimMoveDemo(QMainWindow):
             self.pbar.setValue(self.step)
             self.labelLevel.setText(str(self.lev) + str(self.level_no))
 
-        self.labelforce.setPixmap(self.pixForce)
-        self.timerP1.start(20000)
-        self.timerP1.timeout.connect(self.timer_func)
+
     def keyPressEvent(self, event):
         self.key_notifier.add_key(event.key())
 
