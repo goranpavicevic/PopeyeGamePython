@@ -6,18 +6,18 @@ from PyQt5.QtGui import QPixmap, QImage, QPalette, QBrush
 from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QMainWindow, QProgressBar
 from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QMainWindow
 from multiprocessing import Queue, Process
-from HitForce import force
-from PyQt5.QtCore import QThread,QObject,pyqtSignal,pyqtSlot
-import time
-
 from key_notifier import KeyNotifier
 from oliveMovement import OliveMovement
 from badzoMovement import BadzoMovement
 from heartMovement import HeartMovement
 from random import randint
-from HitForce import force
+from HitForce import force, BombsMovement
+from rainingMan import RainingBombs
+from BadzoFreeze import BadzoFreezeProcess
+
 br = 2
 brLevel = 0
+
 
 class SimMoveDemo(QMainWindow):
     def __init__(self):
@@ -38,12 +38,22 @@ class SimMoveDemo(QMainWindow):
         self.pix7 = QPixmap('images\\Ladders.png')
         self.pix3 = QPixmap('images\\Badzo.png')
         self.pixHeart = QPixmap('images\\heart.png')
+        self.pixBomb = QPixmap('images\\bomb.png')
         self.pix30 = QPixmap('images\\BadzoR.png')
         self.pixForce = QPixmap('images\\force.png')
         self.hearts = []
+
         self.q = Queue()
+        self.bombs = []
         self.unexpectedForce = Process(target=force, args=[self.q])
         self.unexpectedForce.start()
+        self.badzoStop = Queue()
+        self.badzoStart = Queue()
+        self.badzoBug = Process(target=BadzoFreezeProcess, args=[self.badzoStart, self.badzoStop])
+        self.badzoBug.start()
+
+        self.hitF = False
+        self.zaustavio = False
 
         self.label1 = QLabel(self)
         self.label2 = QLabel(self)
@@ -107,6 +117,14 @@ class SimMoveDemo(QMainWindow):
         self.heartMovement.heartMovementSignal.connect(self.generateHeart)
         self.heartMovement.start()
 
+        self.bombsMovement = BombsMovement()
+        self.bombsMovement.bombsMovementSignal.connect(self.generateBombs)
+        self.bombsMovement.start()
+
+        self.rainingBombs = RainingBombs()
+        self.rainingBombs.rainingBombsSignal.connect(self.moveBombs)
+        self.rainingBombs.start()
+
     def __init_ui__(self,br,brLevel):
 
         font = QtGui.QFont()
@@ -164,7 +182,7 @@ class SimMoveDemo(QMainWindow):
         self.setWindowTitle('Popeye')
         self.show()
         self.labelforce.setPixmap(self.pixForce)
-        self.timerP1.start(20000)
+        self.timerP1.start(12000)
         self.timerP1.timeout.connect(self.timer_func)
 
     def progressing(self):
@@ -176,9 +194,9 @@ class SimMoveDemo(QMainWindow):
             self.pbar.setValue(self.step)
             self.labelLevel.setText(str(self.lev) + str(self.level_no))
 
-
     def keyPressEvent(self, event):
-        self.key_notifier.add_key(event.key())
+        a = event.key()
+        self.key_notifier.add_key(a)
 
     def keyReleaseEvent(self, event):
         self.key_notifier.rem_key(event.key())
@@ -186,16 +204,21 @@ class SimMoveDemo(QMainWindow):
     def __update_position__(self, key):
         rec1 = self.label1.geometry()
 
+        if rec1.x() >= self.labelforce.x() - 10 and rec1.x() <= self.labelforce.x() + 10 and rec1.y() >= 755 and rec1.y() <= 785:
+            self.hitF = True
+            self.labelforce.hide()
+            self.timerP1.start()
+
         if key == Qt.Key_Right or key == Qt.Key_Left:
             if rec1.y() < 950 and rec1.y() >= 775:
                 return
-            elif(rec1.y() < 760 and rec1.y() >= 575):
+            elif (rec1.y() < 760 and rec1.y() >= 575):
                 return
 
-        if(key == Qt.Key_Down or key == Qt.Key_Up):
+        if (key == Qt.Key_Down or key == Qt.Key_Up):
             if rec1.y() < 950 and rec1.y() >= 775:
                 self.bounds = True
-            elif(rec1.y() < 760 and rec1.y() >= 575):
+            elif (rec1.y() < 760 and rec1.y() >= 575):
                 self.bounds = True
             else:
                 self.bounds = False
@@ -278,7 +301,8 @@ class SimMoveDemo(QMainWindow):
                 if (self.hitRightDownStairs == False and self.hitRightDownStairsTop == True):
                     self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(),
                                             rec1.height())
-                if(self.bounds == True and (self.hitLeftUpStairs == True or self.hitLeftUpStairsTop == True or self.hitLeftDownStairs == True or self.hitLeftDownStairsTop == True
+                if (self.bounds == True and (
+                        self.hitLeftUpStairs == True or self.hitLeftUpStairsTop == True or self.hitLeftDownStairs == True or self.hitLeftDownStairsTop == True
                 )):
                     self.label1.setGeometry(rec1.x() + self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(),
                                             rec1.height())
@@ -287,7 +311,6 @@ class SimMoveDemo(QMainWindow):
                 )):
                     self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(),
                                             rec1.height())
-
 
                 if (rec1.y() < 947 and rec1.y() <= 760 and (
                         rec1.x() > self.merdevine1 and rec1.x() < self.merdevine1 + 50) and rec1.y() >= 380):
@@ -370,10 +393,9 @@ class SimMoveDemo(QMainWindow):
             else:
                 self.hitRightDownStairsTop = False
             if (rec1.x() > 50 and ((rec1.y() <= 960 and rec1.y() > 935) or (rec1.y() > 755 and rec1.y() < 780) or (
-                    rec1.y() > 550 and rec1.y() < 575) or ((rec1.y() > 371 and rec1.y() < 390) and (rec1.x() <= 450 or rec1.x() >= 1450)))):
+                    rec1.y() > 550 and rec1.y() < 575) or ((rec1.y() > 371 and rec1.y() < 390) and (
+                    rec1.x() <= 450 or rec1.x() >= 1450)))):
                 self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y(), rec1.width(), rec1.height())
-
-
 
     def moveOlive(self):
         rec2 = self.label2.geometry()
@@ -403,6 +425,19 @@ class SimMoveDemo(QMainWindow):
             rec5 = self.hearts[i].geometry()
             self.hearts[i].setGeometry(rec5.x(), rec5.y() + 4, rec5.width(), rec5.height())
 
+    def generateBombs(self):
+        if not self.q.empty():
+            x = self.q.get()
+            bomb = QLabel(self)
+            self.bombs.append(bomb)
+            self.bombs[len(self.bombs) - 1].setPixmap(self.pixBomb)
+            self.bombs[len(self.bombs) - 1].setGeometry(x, 10, 30, 26)
+            self.bombs[len(self.bombs) - 1].show()
+
+    def moveBombs(self):
+        for i in range(len(self.bombs)):
+            rec = self.bombs[i].geometry()
+            self.bombs[i].setGeometry(rec.x(), rec.y() + 6, rec.width(), rec.height())
 
     def moveBadzo(self):
         # if(self.hitSide):
@@ -410,6 +445,19 @@ class SimMoveDemo(QMainWindow):
         # elif(self.hitSide==False):
         #  rec3 = self.label30.geometry()
         rec3 = self.label3.geometry()
+
+        if self.hitF:
+            if not self.zaustavio:
+                self.badzoStop.put(1)
+                self.zaustavio = True
+                return
+            else:
+                if self.badzoStart.empty():
+                    return
+                else:
+                    a = self.badzoStart.get()
+                    self.hitF = False
+                self.zaustavio = False
 
         if (self.sprat == 1):
 
@@ -567,11 +615,9 @@ class SimMoveDemo(QMainWindow):
         self.timerP2.start(10000)
         self.timerP2.timeout.connect(self.hide_force)
 
-
     def hide_force(self):
         self.labelforce.hide()
         self.labelforce.destroy()
-
 
     def closeEvent(self, event):
         self.key_notifier.die()
