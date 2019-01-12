@@ -189,8 +189,16 @@ class SimMoveDemo(QMainWindow):
         if key == Qt.Key_Right or key == Qt.Key_Left:
             if rec1.y() < 950 and rec1.y() >= 775:
                 return
-            elif (rec1.y() < 760 and rec1.y() >= 575):
+            elif(rec1.y() < 760 and rec1.y() >= 575):
                 return
+
+        if(key == Qt.Key_Down or key == Qt.Key_Up):
+            if rec1.y() < 950 and rec1.y() >= 775:
+                self.bounds = True
+            elif(rec1.y() < 760 and rec1.y() >= 575):
+                self.bounds = True
+            else:
+                self.bounds = False
 
         if ((rec1.x() >= 270 and rec1.x() <= 300) and (rec1.y() >= 755 and rec1.y() <= 775)):
             self.hitLeftUpStairs = True
@@ -257,6 +265,7 @@ class SimMoveDemo(QMainWindow):
                 self.label1.setGeometry(rec1.x() + self.popeyeStep, rec1.y(), rec1.width(), rec1.height())
         elif key == Qt.Key_Down:
             if (rec1.y() <= 953):
+
                 if (self.hitLeftUpStairs == False and self.hitLeftUpStairsTop == True):
                     self.label1.setGeometry(rec1.x() + self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(),
                                             rec1.height())
@@ -269,6 +278,17 @@ class SimMoveDemo(QMainWindow):
                 if (self.hitRightDownStairs == False and self.hitRightDownStairsTop == True):
                     self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(),
                                             rec1.height())
+                if(self.bounds == True and (self.hitLeftUpStairs == True or self.hitLeftUpStairsTop == True or self.hitLeftDownStairs == True or self.hitLeftDownStairsTop == True
+                )):
+                    self.label1.setGeometry(rec1.x() + self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(),
+                                            rec1.height())
+                if (self.bounds == True and (
+                        self.hitRightDownStairsTop == True or self.hitRightDownStairs == True or self.hitRightUpStairs == True or self.hitRightUpStairsTop == True
+                )):
+                    self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(),
+                                            rec1.height())
+
+
                 if (rec1.y() < 947 and rec1.y() <= 760 and (
                         rec1.x() > self.merdevine1 and rec1.x() < self.merdevine1 + 50) and rec1.y() >= 380):
                     self.label1.setGeometry(rec1.x(), rec1.y() + self.popeyeStep, rec1.width(), rec1.height())
@@ -281,6 +301,18 @@ class SimMoveDemo(QMainWindow):
                     self.label1.setGeometry(rec1.x(), rec1.y() + self.popeyeStep, rec1.width(), rec1.height())
 
         elif key == Qt.Key_Up:
+            if (self.bounds == True and (
+                    self.hitLeftUpStairs == True or self.hitLeftUpStairsTop == True or self.hitLeftDownStairs == True or self.hitLeftDownStairsTop == True
+            )):
+                self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y() - self.popeyeStep, rec1.width(),
+                                        rec1.height())
+
+            if (self.bounds == True and (
+                    self.hitRightDownStairsTop == True or self.hitRightDownStairs == True or self.hitRightUpStairs == True or self.hitRightUpStairsTop == True
+            )):
+                self.label1.setGeometry(rec1.x() + self.popeyeStep, rec1.y() - self.popeyeStep, rec1.width(),
+                                        rec1.height())
+
             if (self.hitLeftUpStairs == True and self.hitLeftUpStairsTop == False):
                 self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y() - self.popeyeStep, rec1.width(),
                                         rec1.height())
@@ -338,9 +370,7 @@ class SimMoveDemo(QMainWindow):
             else:
                 self.hitRightDownStairsTop = False
             if (rec1.x() > 50 and ((rec1.y() <= 960 and rec1.y() > 935) or (rec1.y() > 755 and rec1.y() < 780) or (
-                    rec1.y() > 550 and rec1.y() < 575) or (
-                                           (rec1.y() > 371 and rec1.y() < 390) and (
-                                           rec1.x() <= 450 or rec1.x() >= 1450)))):
+                    rec1.y() > 550 and rec1.y() < 575) or ((rec1.y() > 371 and rec1.y() < 390) and (rec1.x() <= 450 or rec1.x() >= 1450)))):
                 self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y(), rec1.width(), rec1.height())
 
 
