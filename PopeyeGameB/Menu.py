@@ -2,7 +2,7 @@ import sys
 
 from PyQt5 import QtGui
 from PyQt5.QtCore import QSize
-from PyQt5.QtGui import QImage, QPalette, QBrush, QFont
+from PyQt5.QtGui import QImage, QPalette, QBrush, QFont, QPixmap
 from PyQt5.QtWidgets import QMainWindow, QLabel, QApplication, QPushButton
 from sim_move_demo import SimMoveDemo
 from PyQt5.QtCore import Qt
@@ -16,6 +16,11 @@ class Menu(QMainWindow):
 
 
         self.label = QLabel(self)
+        self.label1Player = QLabel(self)
+        self.oneplayer = QPixmap('images\\JedanIgrac.png')
+
+        self.label2Player = QLabel(self)
+        self.twoplayer = QPixmap('images\\DvaIgraca.png')
 
         self.left = 400
         self.top = 200
@@ -36,36 +41,44 @@ class Menu(QMainWindow):
 
         self.setWindowTitle("Menu")
 
-        button1 = QPushButton('1 PLAYER GAME', self)
-        button1.resize(400, 43)
-        button1.move(300, 210)
-        button1.clicked.connect(self.one_players_on_click)
+        #RESENJE 1 : SA BUTTON-IMA
+        #button1 = QPushButton('1 PLAYER GAME', self)
+        #button1.resize(400, 43)
+        #button1.move(300, 210)
+        #button1.clicked.connect(self.one_players_on_click)
 
-        button2 = QPushButton('2 PLAYER GAME', self)
-        button2.resize(400, 43)
-        button2.move(300, 253)
-        button2.clicked.connect(self.two_players_on_click)
-
+        #button2 = QPushButton('2 PLAYER GAME', self)
+        #button2.resize(400, 43)
+        #button2.move(300, 253)
+        #button2.clicked.connect(self.two_players_on_click)
 
         button4 = QPushButton('QUIT', self)
         button4.resize(330, 43)
         button4.move(330, 316)
 
         button4.clicked.connect(self.quit_on_click)
+
+        #RESENJE 2 : SA LABELAMA
+        self.label1Player.setPixmap(self.oneplayer)
+        self.label1Player.setGeometry(300, 210, 395, 43)
+        self.label1Player.mousePressEvent = self.one_players_on_click
+
+        self.label2Player.setPixmap(self.twoplayer)
+        self.label2Player.setGeometry(300, 263, 395, 43)
+        self.label2Player.mousePressEvent = self.two_players_on_click
+
         self.show()
 
-
-    def one_players_on_click(self):
-        self.one = SimMoveDemo()
+    def one_players_on_click(self,event):
+        self.one = SimMoveDemo(1)
         self.one.show()
 
-    def two_players_on_click(self):
-        self.two = SimMoveDemo()
+    def two_players_on_click(self,event):
+        self.two = SimMoveDemo(2)
         self.two.show()
 
     def quit_on_click(self):
         self.close()
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

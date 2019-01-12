@@ -14,13 +14,14 @@ from random import randint
 from HitForce import force, BombsMovement
 from rainingMan import RainingBombs
 from BadzoFreeze import BadzoFreezeProcess
+from key_notifier2 import KeyNotifier2
 
 br = 2
 brLevel = 0
 
 
 class SimMoveDemo(QMainWindow):
-    def __init__(self):
+    def __init__(self, brojIgraca):
         super().__init__()
 
         oImage = QImage("images\\backround.png")
@@ -30,6 +31,7 @@ class SimMoveDemo(QMainWindow):
         self.setPalette(palette)
 
         self.pix1 = QPixmap('images\\Popeye.png')
+        self.pix11 = QPixmap('images\\Popeye.png')      #-----------------
         self.pix2 = QPixmap('images\\oliveOyl.png')
 
         self.pix4 = QPixmap('images\\Ladders.png')
@@ -56,6 +58,7 @@ class SimMoveDemo(QMainWindow):
         self.zaustavio = False
 
         self.label1 = QLabel(self)
+        self.label11 = QLabel(self)
         self.label2 = QLabel(self)
         self.label4 = QLabel(self)
         self.label5 = QLabel(self)
@@ -102,7 +105,19 @@ class SimMoveDemo(QMainWindow):
         self.__init_ui__(br,brLevel)
 
         self.key_notifier = KeyNotifier()
-        self.key_notifier.key_signal.connect(self.__update_position__)
+
+        if (brojIgraca == 1):
+            self.key_notifier.key_signal.connect(self.__update_position__)  # -----------------
+            self.brojIgracaJedan = True
+        else:
+            self.brojIgracaJedan = False
+            self.label11.setPixmap(self.pix11)  # ---------------------------
+            self.label11.setGeometry(1200, 954, 75, 75)  # -----------------------
+            self.key_notifier2 = KeyNotifier2()
+            self.key_notifier.key_signal.connect(self.__update_position__)  # -----------------
+            self.key_notifier2.key_signal2.connect(self.__update_position2__)  # -----------------
+            self.key_notifier2.start()
+
         self.key_notifier.start()
 
         self.oliveMovement = OliveMovement()
@@ -197,9 +212,16 @@ class SimMoveDemo(QMainWindow):
     def keyPressEvent(self, event):
         a = event.key()
         self.key_notifier.add_key(a)
+        if (self.brojIgracaJedan == False):
+            b = event.key()
+            self.key_notifier2.add_key(b)
 
     def keyReleaseEvent(self, event):
-        self.key_notifier.rem_key(event.key())
+        a = event.key()
+        self.key_notifier.rem_key(a)
+        if (self.brojIgracaJedan == False):
+            b = event.key()
+            self.key_notifier2.rem_key(b)
 
     def __update_position__(self, key):
         rec1 = self.label1.geometry()
@@ -396,6 +418,203 @@ class SimMoveDemo(QMainWindow):
                     rec1.y() > 550 and rec1.y() < 575) or ((rec1.y() > 371 and rec1.y() < 390) and (
                     rec1.x() <= 450 or rec1.x() >= 1450)))):
                 self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y(), rec1.width(), rec1.height())
+
+    def __update_position2__(self, key):
+        rec1 = self.label11.geometry()
+
+        if (rec1.x() >= self.labelforce.x() - 10 and rec1.x() <= self.labelforce.x() + 10 and rec1.y() >= 755 and rec1.y() <= 785):
+            self.hitF = True
+            self.labelforce.hide()
+            self.timerP1.start()
+
+        if key == Qt.Key_D or key == Qt.Key_A:
+            if rec1.y() < 950 and rec1.y() >= 775:
+                return
+            elif (rec1.y() < 760 and rec1.y() >= 575):
+                return
+
+        if (key == Qt.Key_S or key == Qt.Key_W):
+            if rec1.y() < 950 and rec1.y() >= 775:
+                self.bounds = True
+            elif (rec1.y() < 760 and rec1.y() >= 575):
+                self.bounds = True
+            else:
+                self.bounds = False
+
+        if ((rec1.x() >= 270 and rec1.x() <= 300) and (rec1.y() >= 755 and rec1.y() <= 775)):
+            self.hitLeftUpStairs2 = True
+            self.hitLeftUpStairsTop2 = False
+        if ((rec1.x() >= 70 and rec1.x() <= 100) and (rec1.y() >= 540 and rec1.y() <= 575)):
+            self.hitLeftUpStairsTop2 = True
+            self.hitLeftUpStairs2 = False
+        if ((rec1.x() >= 1570 and rec1.x() <= 1630) and (rec1.y() >= 755 and rec1.y() <= 775)):
+            self.hitRightUpStairs2 = True
+            self.hitRightUpStairsTop2 = False
+        if ((rec1.x() >= 1770 and rec1.x() <= 1820) and (rec1.y() >= 555 and rec1.y() <= 575)):
+            self.hitRightUpStairsTop2 = True
+            self.hitRightUpStairs2 = False
+        if ((rec1.x() >= 270 and rec1.x() <= 300) and (rec1.y() >= 950 and rec1.y() <= 965)):
+            self.hitLeftDownStairs2 = True
+            self.hitLeftDownStairsTop2 = False
+        if ((rec1.x() >= 80 and rec1.x() <= 110) and (rec1.y() >= 755 and rec1.y() <= 775)):
+            self.hitLeftDownStairsTop2 = True
+            self.hitLeftDownStairs2 = False
+        if ((rec1.x() >= 1570 and rec1.x() <= 1610) and (rec1.y() > 950 and rec1.y() <= 965)):
+            self.hitRightDownStairs2 = True
+            self.hitRightDownStairsTop2 = False
+        if ((rec1.x() >= 1760 and rec1.x() <= 1820) and (rec1.y() >= 755 and rec1.y() <= 775)):
+            self.hitRightDownStairsTop2 = True
+            self.hitRightDownStairs2 = False
+
+        if key == Qt.Key_D:
+            if (rec1.x() <= 1780):
+                if ((rec1.x() >= 270 and rec1.x() <= 290) and (rec1.y() >= 755 and rec1.y() <= 770)):
+                    self.hitLeftUpStairs2 = True
+                else:
+                    self.hitLeftUpStairs2 = False
+                if ((rec1.x() >= 80 and rec1.x() <= 100) and (rec1.y() >= 540 and rec1.y() <= 575)):
+                    self.hitLeftUpStairsTop2 = True
+                else:
+                    self.hitLeftUpStairsTop2 = False
+                if ((rec1.x() >= 1780 and rec1.x() <= 1820) and (rec1.y() >= 540 and rec1.y() <= 570)):
+                    self.hitRightUpStairsTop2 = True
+                else:
+                    self.hitRightUpStairsTop2 = False
+                if ((rec1.x() >= 1570 and rec1.x() <= 1610) and (rec1.y() >= 755 and rec1.y() <= 770)):
+                    self.hitRightUpStairs2 = True
+                else:
+                    self.hitRightUpStairs2 = False
+                if ((rec1.x() >= 270 and rec1.x() <= 290) and (rec1.y() >= 950 and rec1.y() <= 965)):
+                    self.hitLeftDownStairs2 = True
+                else:
+                    self.hitLeftDownStairs2 = False
+                if ((rec1.x() >= 80 and rec1.x() <= 110) and (rec1.y() >= 755 and rec1.y() <= 770)):
+                    self.hitLeftDownStairsTop2 = True
+                else:
+                    self.hitLeftDownStairsTop2 = False
+                if ((rec1.x() >= 1570 and rec1.x() <= 1610) and (rec1.y() >= 950 and rec1.y() <= 965)):
+                    self.hitRightDownStairs2 = True
+                else:
+                    self.hitRightDownStairs2 = False
+                if ((rec1.x() >= 1760 and rec1.x() <= 1820) and (rec1.y() >= 755 and rec1.y() <= 770)):
+                    self.hitRightDownStairsTop2 = True
+                else:
+                    self.hitRightDownStairsTop2 = False
+
+                if (rec1.x() < 1800 and (rec1.y() <= 960 and rec1.y() > 935) or (rec1.y() > 755 and rec1.y() < 780) or (
+                                rec1.y() > 550 and rec1.y() < 575) or (
+                            (rec1.y() > 371 and rec1.y() < 390) and (rec1.x() < 450 or rec1.x() >= 1400))):
+                    self.label11.setGeometry(rec1.x() + self.popeyeStep, rec1.y(), rec1.width(), rec1.height())
+        elif key == Qt.Key_S:
+            if (rec1.y() <= 953):
+
+                if (self.hitLeftUpStairs2 == False and self.hitLeftUpStairsTop2 == True):
+                    self.label11.setGeometry(rec1.x() + self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(),
+                                            rec1.height())
+                if (self.hitLeftDownStairs2 == False and self.hitLeftDownStairsTop2 == True):
+                    self.label11.setGeometry(rec1.x() + self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(),
+                                            rec1.height())
+                if (self.hitRightUpStairs2 == False and self.hitRightUpStairsTop2 == True):
+                    self.label11.setGeometry(rec1.x() - self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(),
+                                            rec1.height())
+                if (self.hitRightDownStairs2 == False and self.hitRightDownStairsTop2 == True):
+                    self.label11.setGeometry(rec1.x() - self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(),
+                                            rec1.height())
+                if (self.bounds == True and (
+                                self.hitLeftUpStairs2 == True or self.hitLeftUpStairsTop2 == True or self.hitLeftDownStairs2 == True or self.hitLeftDownStairsTop2 == True
+                                )):
+                    self.label11.setGeometry(rec1.x() + self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(),
+                                            rec1.height())
+                if (self.bounds == True and (
+                                        self.hitRightDownStairsTop2 == True or self.hitRightDownStairs2 == True or self.hitRightUpStairs2 == True or self.hitRightUpStairsTop2 == True
+                )):
+                    self.label11.setGeometry(rec1.x() - self.popeyeStep, rec1.y() + self.popeyeStep, rec1.width(),
+                                            rec1.height())
+
+                if (rec1.y() < 947 and rec1.y() <= 760 and (
+                                rec1.x() > self.merdevine1 and rec1.x() < self.merdevine1 + 50) and rec1.y() >= 380):
+                    self.label11.setGeometry(rec1.x(), rec1.y() + self.popeyeStep, rec1.width(), rec1.height())
+                if (rec1.y() > 750 and (
+                                rec1.x() > self.merdevine2 and rec1.x() < self.merdevine2 + 50) and rec1.y() <= 950):
+                    self.label11.setGeometry(rec1.x(), rec1.y() + self.popeyeStep, rec1.width(), rec1.height())
+                if ((rec1.x() <= 1530 and rec1.x() >= 1500) and (rec1.y() <= 560 and rec1.y() >= 370)):
+                    self.label11.setGeometry(rec1.x(), rec1.y() + self.popeyeStep, rec1.width(), rec1.height())
+                if ((rec1.x() <= 330 and rec1.x() >= 300) and (rec1.y() <= 560 and rec1.y() >= 370)):
+                    self.label11.setGeometry(rec1.x(), rec1.y() + self.popeyeStep, rec1.width(), rec1.height())
+
+        elif key == Qt.Key_W:
+            if (self.bounds == True and (
+                                    self.hitLeftUpStairs2 == True or self.hitLeftUpStairsTop2 == True or self.hitLeftDownStairs2 == True or self.hitLeftDownStairsTop2 == True
+            )):
+                self.label11.setGeometry(rec1.x() - self.popeyeStep, rec1.y() - self.popeyeStep, rec1.width(),
+                                        rec1.height())
+
+            if (self.bounds == True and (
+                                    self.hitRightDownStairsTop2 == True or self.hitRightDownStairs2 == True or self.hitRightUpStairs2 == True or self.hitRightUpStairsTop2 == True
+            )):
+                self.label11.setGeometry(rec1.x() + self.popeyeStep, rec1.y() - self.popeyeStep, rec1.width(),
+                                        rec1.height())
+
+            if (self.hitLeftUpStairs2 == True and self.hitLeftUpStairsTop2 == False):
+                self.label11.setGeometry(rec1.x() - self.popeyeStep, rec1.y() - self.popeyeStep, rec1.width(),
+                                        rec1.height())
+            if (self.hitLeftDownStairs2 == True and self.hitLeftDownStairsTop2 == False):
+                self.label11.setGeometry(rec1.x() - self.popeyeStep, rec1.y() - self.popeyeStep, rec1.width(),
+                                        rec1.height())
+            if (self.hitRightUpStairs2 == True and self.hitRightUpStairsTop2 == False):
+                self.label11.setGeometry(rec1.x() + self.popeyeStep, rec1.y() - self.popeyeStep, rec1.width(),
+                                        rec1.height())
+            if (self.hitRightDownStairs2 == True and self.hitRightDownStairsTop2 == False):
+                self.label11.setGeometry(rec1.x() + self.popeyeStep, rec1.y() - self.popeyeStep, rec1.width(),
+                                        rec1.height())
+            if (rec1.y() >= 570 and (
+                            rec1.x() > self.merdevine1 and rec1.x() < self.merdevine1 + 50) and rec1.y() <= 780):
+                self.label11.setGeometry(rec1.x(), rec1.y() - self.popeyeStep, rec1.width(), rec1.height())
+            if (rec1.y() > 50 and (
+                            rec1.x() > self.merdevine2 and rec1.x() < self.merdevine2 + 50) and rec1.y() >= 780 and rec1.y() <= 960):
+                self.label11.setGeometry(rec1.x(), rec1.y() - self.popeyeStep, rec1.width(), rec1.height())
+            if ((rec1.x() <= 1530 and rec1.x() >= 1500) and (rec1.y() <= 580 and rec1.y() >= 385)):
+                self.label11.setGeometry(rec1.x(), rec1.y() - self.popeyeStep, rec1.width(), rec1.height())
+            if ((rec1.x() <= 330 and rec1.x() >= 300) and (rec1.y() <= 580 and rec1.y() >= 385)):
+                self.label11.setGeometry(rec1.x(), rec1.y() - self.popeyeStep, rec1.width(), rec1.height())
+
+        elif key == Qt.Key_A:
+            if ((rec1.x() >= 270 and rec1.x() <= 290) and (rec1.y() >= 755 and rec1.y() <= 770)):
+                self.hitLeftUpStairs2 = True
+            else:
+                self.hitLeftUpStairs2 = False
+            if ((rec1.x() >= 80 and rec1.x() <= 110) and (rec1.y() >= 540 and rec1.y() <= 575)):
+                self.hitLeftUpStairsTop2 = True
+            else:
+                self.hitLeftUpStairsTop2 = False
+            if ((rec1.x() >= 1780 and rec1.x() <= 1820) and (rec1.y() >= 540 and rec1.y() <= 570)):
+                self.hitRightUpStairsTop2 = True
+            else:
+                self.hitRightUpStairsTop2 = False
+            if ((rec1.x() >= 1570 and rec1.x() <= 1610) and (rec1.y() >= 755 and rec1.y() <= 775)):
+                self.hitRightUpStairs2 = True
+            else:
+                self.hitRightUpStairs2 = False
+            if ((rec1.x() >= 270 and rec1.x() <= 290) and (rec1.y() >= 950 and rec1.y() <= 965)):
+                self.hitLeftDownStairs2 = True
+            else:
+                self.hitLeftDownStairs2 = False
+            if ((rec1.x() >= 80 and rec1.x() <= 110) and (rec1.y() >= 755 and rec1.y() <= 770)):
+                self.hitLeftDownStairsTop2 = True
+            else:
+                self.hitLeftDownStairsTop2 = False
+            if ((rec1.x() >= 1570 and rec1.x() <= 1610) and (rec1.y() >= 950 and rec1.y() <= 965)):
+                self.hitRightDownStairs2 = True
+            else:
+                self.hitRightDownStairs2 = False
+            if ((rec1.x() >= 1760 and rec1.x() <= 1820) and (rec1.y() >= 755 and rec1.y() <= 775)):
+                self.hitRightDownStairsTop2 = True
+            else:
+                self.hitRightDownStairsTop2 = False
+            if (rec1.x() > 50 and ((rec1.y() <= 960 and rec1.y() > 935) or (rec1.y() > 755 and rec1.y() < 780) or (
+                            rec1.y() > 550 and rec1.y() < 575) or (
+                (rec1.y() > 371 and rec1.y() < 390) and (rec1.x() <= 450 or rec1.x() >= 1450)))):
+                self.label11.setGeometry(rec1.x() - self.popeyeStep, rec1.y(), rec1.width(), rec1.height())
 
     def moveOlive(self):
         rec2 = self.label2.geometry()
@@ -621,6 +840,7 @@ class SimMoveDemo(QMainWindow):
 
     def closeEvent(self, event):
         self.key_notifier.die()
+        self.key_notifier2.die()
 
 
 if __name__ == '__main__':
