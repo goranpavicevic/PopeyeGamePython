@@ -5,6 +5,8 @@ from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QPixmap, QImage, QPalette, QBrush
 from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QMainWindow, QProgressBar
 from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QMainWindow
+from multiprocessing import Queue, Process
+from HitForce import force
 from PyQt5.QtCore import QThread,QObject,pyqtSignal,pyqtSlot
 import time
 
@@ -13,6 +15,7 @@ from oliveMovement import OliveMovement
 from badzoMovement import BadzoMovement
 from heartMovement import HeartMovement
 from random import randint
+from HitForce import force
 br = 2
 brLevel = 0
 
@@ -38,6 +41,9 @@ class SimMoveDemo(QMainWindow):
         self.pix30 = QPixmap('images\\BadzoR.png')
         self.pixForce = QPixmap('images\\force.png')
         self.hearts = []
+        self.q = Queue()
+        self.unexpectedForce = Process(target=force, args=[self.q])
+        self.unexpectedForce.start()
 
         self.label1 = QLabel(self)
         self.label2 = QLabel(self)
@@ -181,21 +187,21 @@ class SimMoveDemo(QMainWindow):
         rec1 = self.label1.geometry()
 
         if key == Qt.Key_Right or key == Qt.Key_Left:
-            if rec1.y() < 952 and rec1.y() > 780:
+            if rec1.y() < 950 and rec1.y() >= 775:
                 return
-            elif (rec1.y() < 760 and rec1.y() > 580):
+            elif (rec1.y() < 760 and rec1.y() >= 575):
                 return
 
         if ((rec1.x() >= 270 and rec1.x() <= 300) and (rec1.y() >= 755 and rec1.y() <= 775)):
             self.hitLeftUpStairs = True
             self.hitLeftUpStairsTop = False
-        if ((rec1.x() >= 70 and rec1.x() <= 100) and (rec1.y() >= 540 and rec1.y() <= 570)):
+        if ((rec1.x() >= 70 and rec1.x() <= 100) and (rec1.y() >= 540 and rec1.y() <= 575)):
             self.hitLeftUpStairsTop = True
             self.hitLeftUpStairs = False
-        if ((rec1.x() >= 1570 and rec1.x() <= 1610) and (rec1.y() >= 755 and rec1.y() <= 775)):
+        if ((rec1.x() >= 1570 and rec1.x() <= 1630) and (rec1.y() >= 755 and rec1.y() <= 775)):
             self.hitRightUpStairs = True
             self.hitRightUpStairsTop = False
-        if ((rec1.x() >= 1780 and rec1.x() <= 1820) and (rec1.y() >= 540 and rec1.y() <= 570)):
+        if ((rec1.x() >= 1770 and rec1.x() <= 1820) and (rec1.y() >= 555 and rec1.y() <= 575)):
             self.hitRightUpStairsTop = True
             self.hitRightUpStairs = False
         if ((rec1.x() >= 270 and rec1.x() <= 300) and (rec1.y() >= 950 and rec1.y() <= 965)):
@@ -216,7 +222,7 @@ class SimMoveDemo(QMainWindow):
                 self.hitLeftUpStairs = True
             else:
                 self.hitLeftUpStairs = False
-            if ((rec1.x() >= 80 and rec1.x() <= 100) and (rec1.y() >= 540 and rec1.y() <= 570)):
+            if ((rec1.x() >= 80 and rec1.x() <= 100) and (rec1.y() >= 540 and rec1.y() <= 575)):
                 self.hitLeftUpStairsTop = True
             else:
                 self.hitLeftUpStairsTop = False
@@ -303,7 +309,7 @@ class SimMoveDemo(QMainWindow):
                 self.hitLeftUpStairs = True
             else:
                 self.hitLeftUpStairs = False
-            if ((rec1.x() >= 80 and rec1.x() <= 110) and (rec1.y() >= 540 and rec1.y() <= 570)):
+            if ((rec1.x() >= 80 and rec1.x() <= 110) and (rec1.y() >= 540 and rec1.y() <= 575)):
                 self.hitLeftUpStairsTop = True
             else:
                 self.hitLeftUpStairsTop = False
@@ -336,6 +342,8 @@ class SimMoveDemo(QMainWindow):
                                            (rec1.y() > 371 and rec1.y() < 390) and (
                                            rec1.x() <= 450 or rec1.x() >= 1450)))):
                 self.label1.setGeometry(rec1.x() - self.popeyeStep, rec1.y(), rec1.width(), rec1.height())
+
+
 
     def moveOlive(self):
         rec2 = self.label2.geometry()
@@ -529,9 +537,11 @@ class SimMoveDemo(QMainWindow):
         self.timerP2.start(10000)
         self.timerP2.timeout.connect(self.hide_force)
 
+
     def hide_force(self):
         self.labelforce.hide()
         self.labelforce.destroy()
+
 
     def closeEvent(self, event):
         self.key_notifier.die()

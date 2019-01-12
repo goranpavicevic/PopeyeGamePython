@@ -5,7 +5,7 @@ from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QImage, QPalette, QBrush, QFont
 from PyQt5.QtWidgets import QMainWindow, QLabel, QApplication, QPushButton
 from sim_move_demo import SimMoveDemo
-
+from PyQt5.QtCore import Qt
 
 class Menu(QMainWindow):
 
@@ -32,6 +32,7 @@ class Menu(QMainWindow):
     def __init_ui__(self):
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.setWindowIcon(QtGui.QIcon('Popeye.png'))
+        # self.setWindowState(Qt.WindowFullScreen)
 
         self.setWindowTitle("Menu")
 
