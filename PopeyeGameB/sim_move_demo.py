@@ -730,10 +730,6 @@ class SimMoveDemo(QMainWindow):
                 self.bombs.remove(bomb)
 
     def moveBadzo(self):
-        # if(self.hitSide):
-        #   rec3 = self.label3.geometry()
-        # elif(self.hitSide==False):
-        #  rec3 = self.label30.geometry()
         rec3 = self.label3.geometry()
 
         j = 0
@@ -759,14 +755,10 @@ class SimMoveDemo(QMainWindow):
                 self.zaustavio = False
 
         if (self.sprat == 1):
-
-            # if j == 1, skaci i radi sta hoces
-            self.boolSkok += 1
             if (rec3.x() == 1500):
                 self.hitSide2 = True
-                self.LadderUPBadzo = self.BoolBadzaMerdevine
-                self.boolSkok += 1
-            elif (rec3.x() == self.merdevine1):  # or self.boolSkok==True):
+                self.LadderUPBadzo = True
+            elif (rec3.x() == self.merdevine1 or j == 1):
                 self.LadderDownBadzo = self.BoolBadzaMerdevine
             elif (rec3.x() == 300):
                 self.hitSide2 = False
@@ -785,7 +777,6 @@ class SimMoveDemo(QMainWindow):
             elif self.hitSide2:
                 self.label3.setGeometry(rec3.x() - 10, rec3.y() + 0, rec3.width(), rec3.height())
                 self.BoolBadzaMerdevine = random.randint(0, 1)
-                self.boolSkok = random.randint(0, 1)
             elif self.LadderUPBadzo:
                 self.label3.setGeometry(rec3.x() - 0, rec3.y() - 10, rec3.width(), rec3.height())
                 self.KolkoSePopeo += 10
@@ -803,7 +794,7 @@ class SimMoveDemo(QMainWindow):
         elif (self.sprat == 2):
             if (rec3.x() == 1500):
                 self.hitSide2 = True
-            elif (rec3.x() == self.merdevine2):  # or self.boolSkok == True):
+            elif (rec3.x() == self.merdevine2 or j == 1):  # or self.boolSkok == True):
                 self.LadderDownBadzo = self.BoolBadzaMerdevine
             elif (rec3.x() == self.merdevine1):
                 self.LadderUPBadzo = self.BoolBadzaMerdevine
@@ -842,13 +833,13 @@ class SimMoveDemo(QMainWindow):
         elif (self.sprat == 3):
             if (rec3.x() == 1500):
                 self.hitSide2 = True
-                # elif (rec3.x() == self.merdevine2):
-                # self.LadderDownBadzo = self.BoolBadzaMerdevine
             elif (rec3.x() == self.merdevine2):
                 self.LadderUPBadzo = self.BoolBadzaMerdevine
             elif (rec3.x() == 300):
                 self.hitSide2 = False
                 self.LadderUPBadzo = False
+            elif (j == 1 and rec3.x == self.merdevine2):
+                self.LadderUPBadzo = True
 
             if self.hitSide2:
                 self.label3.setGeometry(rec3.x() - 10, rec3.y() + 0, rec3.width(), rec3.height())
@@ -907,7 +898,6 @@ class SimMoveDemo(QMainWindow):
             elif self.hitSide2 == False:
                 self.label3.setGeometry(rec3.x() + 10, rec3.y() + 0, rec3.width(), rec3.height())
                 self.BoolBadzaMerdevine = random.randint(0, 1)
-
     def timer_func(self):
         x = random.randint(300, 1500)
         self.labelforce.setGeometry(x, 780, 72, 56)
