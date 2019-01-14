@@ -39,6 +39,9 @@ class SimMoveDemo(QMainWindow):
         self.pix6 = QPixmap('images\\Ladders.png')
         self.pix7 = QPixmap('images\\Ladders.png')
         self.pix3 = QPixmap('images\\Badzo.png')
+        self.pixBottleR = QPixmap('images\\flasaR.png')
+        self.pixBottleL = QPixmap('images\\flasaL.png')
+        self.pix32 = QPixmap('images\\BadzoR.png')
         self.pixHeart = QPixmap('images\\plavoSrce.png')
         self.pixBomb = QPixmap('images\\bomb.png')
         self.pix30 = QPixmap('images\\BadzoR.png')
@@ -54,8 +57,11 @@ class SimMoveDemo(QMainWindow):
         self.badzoBug = Process(target=BadzoFreezeProcess, args=[self.badzoStart, self.badzoStop])
         self.badzoBug.start()
         self.bottlesQueue = Queue()
-        #self.bottlesProcess = Process(target=generateBottles, args=[self.bottlesQueue])
-        self.bottles = []
+        self.bottlesProcess = Process(target=generateBottles, args=[self.bottlesQueue])
+        self.bottlesLeft = []
+        self.bottlesRight = []
+        self.bottlesProcess.start()
+        self.badzoR = False
 
         self.hitF = False
         self.zaustavio = False
@@ -143,9 +149,9 @@ class SimMoveDemo(QMainWindow):
         self.rainingBombs.rainingBombsSignal.connect(self.moveBombs)
         self.rainingBombs.start()
 
-        #self.movingBottles = BottleMovement()
-        #self.movingBottles.movingBottlesSignal.connect(self.moveBottles)
-        #self.movingBottles.start()
+        self.movingBottles = BottleMovement()
+        self.movingBottles.bottleMovementSignal.connect(self.moveBottles)
+        self.movingBottles.start()
 
     def __init_ui__(self,br,brLevel):
 
@@ -692,8 +698,10 @@ class SimMoveDemo(QMainWindow):
         #  rec3 = self.label30.geometry()
         rec3 = self.label3.geometry()
 
-
-
+        if not self.hitSide2:
+            self.label3.setPixmap(self.pix32)
+        else:
+            self.label3.setPixmap(self.pix3)
 
         if self.hitF:
             if not self.zaustavio:
@@ -873,13 +881,34 @@ class SimMoveDemo(QMainWindow):
         self.key_notifier2.die()
 
     def moveBottles(self):
+        rec = self.label3.geometry()
         if not self.bottlesQueue.empty():
             x = self.bottlesQueue.get()
             bottle = QLabel(self)
-            self.bottles.append(bottle)
-            self.bottles[len(self.bottles) - 1].setPixmap(self.pixBomb)
-            self.bottles[len(self.bottles) - 1].setGeometry(x, 10, 30, 26)
-            self.bottles[len(self.bottles) - 1].show()
+            if self.hitSide2:
+                self.bottlesLeft.append(bottle)
+                self.bottlesLeft[len(self.bottlesLeft) - 1].setPixmap(self.pixBottleL)
+                self.bottlesLeft[len(self.bottlesLeft) - 1].setGeometry(rec.x(), rec.y(), 30, 26)
+                self.bottlesLeft[len(self.bottlesLeft) - 1].show()
+            else:
+                self.bottlesRight.append(bottle)
+                self.bottlesRight[len(self.bottlesRight) - 1].setPixmap(self.pixBottleR)
+                self.bottlesRight[len(self.bottlesRight) - 1].setGeometry(rec.x(), rec.y(), 30, 26)
+                self.bottlesRight[len(self.bottlesRight) - 1].show()
+
+        for bottle in self.bottlesRight:
+            recb = bottle.geometry()
+            bottle.setGeometry(recb.x() + 10, recb.y(), recb.width(), recb.height())
+            if recb.x() > 1900:
+                bottle.hide()
+                self.bottlesRight.remove(bottle)
+
+        for bottle in self.bottlesLeft:
+            recb = bottle.geometry()
+            bottle.setGeometry(recb.x() - 10, recb.y(), recb.width(), recb.height())
+            if recb.x() < 20:
+                bottle.hide()
+                self.bottlesLeft.remove(bottle)
 
 
 

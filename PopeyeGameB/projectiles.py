@@ -46,7 +46,7 @@ def generateBottles(q):
         time.sleep(randint(4, 7))
         for i in range(4):
             q.put(1)
-            time.sleep(0.5)
+            time.sleep(0.1)
 
 
 def BadzoFreezeProcess(start, stop):

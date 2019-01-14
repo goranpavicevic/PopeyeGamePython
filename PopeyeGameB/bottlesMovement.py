@@ -38,4 +38,4 @@ class BottleMovement(QObject):
         """
         while True:
             self.bottleMovementSignal.emit()
-            time.sleep(0.08)
+            time.sleep(0.04)
