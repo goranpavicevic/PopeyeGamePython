@@ -34,25 +34,9 @@
         <entry file="file://$PROJECT_DIR$/sim_move_demo.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="82">
-              <caret line="673" selection-start-line="672" selection-end-line="673" />
+              <caret line="687" selection-start-line="687" selection-end-line="687" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
-                <element signature="e#5559#7373#0" />
-                <element signature="e#7410#7662#0" />
-                <element signature="e#7708#7874#0" />
-                <element signature="e#7922#8088#0" />
-                <element signature="e#8138#20423#0" />
-                <element signature="e#20474#32914#0" />
-                <element signature="e#32949#33773#0" />
-                <element signature="e#33812#34234#0" />
-                <element signature="e#34273#34582#0" />
-                <element signature="e#34617#35018#0" />
-                <element signature="e#34653#35018#0" />
-                <element signature="e#35141#42684#0" />
-                <element signature="e#42688#42888#0" />
-                <element signature="e#42924#42980#0" />
-                <element signature="e#43023#43079#0" />
-                <element signature="e#43136#44491#0" />
               </folding>
             </state>
           </provider>
@@ -94,11 +78,11 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-10" />
     <option name="y" value="-10" />
-    <option name="width" value="1939" />
-    <option name="height" value="1099" />
+    <option name="width" value="1940" />
+    <option name="height" value="1100" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -211,9 +195,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16510066" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1645737" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -316,20 +299,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/runpy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="95" selection-start-line="95" selection-end-line="95" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/multiprocessing/spawn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="104" selection-start-line="104" selection-end-line="104" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/runpy.py" />
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/multiprocessing/spawn.py" />
     <entry file="file://$PROJECT_DIR$/Menu.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-84">
@@ -344,6 +315,12 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/images/Badzo.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/images/BadzoR.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/projectiles.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="714">
@@ -354,34 +331,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/images/Badzo.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/images/BadzoR.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/sim_move_demo.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="82">
-          <caret line="673" selection-start-line="672" selection-end-line="673" />
+          <caret line="687" selection-start-line="687" selection-end-line="687" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#5559#7373#0" />
-            <element signature="e#7410#7662#0" />
-            <element signature="e#7708#7874#0" />
-            <element signature="e#7922#8088#0" />
-            <element signature="e#8138#20423#0" />
-            <element signature="e#20474#32914#0" />
-            <element signature="e#32949#33773#0" />
-            <element signature="e#33812#34234#0" />
-            <element signature="e#34273#34582#0" />
-            <element signature="e#34617#35018#0" />
-            <element signature="e#34653#35018#0" />
-            <element signature="e#35141#42684#0" />
-            <element signature="e#42688#42888#0" />
-            <element signature="e#42924#42980#0" />
-            <element signature="e#43023#43079#0" />
-            <element signature="e#43136#44491#0" />
           </folding>
         </state>
       </provider>
