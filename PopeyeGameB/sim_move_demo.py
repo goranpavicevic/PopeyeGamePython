@@ -15,10 +15,9 @@ from HitForce import force, BombsMovement
 from rainingMan import RainingBombs
 from BadzoFreeze import BadzoFreezeProcess
 from key_notifier2 import KeyNotifier2
-
+from Collision import isHit
 br = 2
 brLevel = 0
-
 
 class SimMoveDemo(QMainWindow):
     def __init__(self, brojIgraca):
@@ -39,7 +38,7 @@ class SimMoveDemo(QMainWindow):
         self.pix6 = QPixmap('images\\Ladders.png')
         self.pix7 = QPixmap('images\\Ladders.png')
         self.pix3 = QPixmap('images\\Badzo.png')
-        self.pixHeart = QPixmap('images\\heart.png')
+        self.pixHeart = QPixmap('images\\plavoSrce.png')
         self.pixBomb = QPixmap('images\\bomb.png')
         self.pix30 = QPixmap('images\\BadzoR.png')
         self.pixForce = QPixmap('images\\force.png')
@@ -99,7 +98,7 @@ class SimMoveDemo(QMainWindow):
         self.hitRightDownStairsTop = False
 
         self.popeyeStep = 10
-
+        self.poeni1 = 0
         self.sprat = 1
         self.setWindowState(Qt.WindowFullScreen)
         self.__init_ui__(br,brLevel)
@@ -183,6 +182,7 @@ class SimMoveDemo(QMainWindow):
         self.labelScore.setGeometry(1700, 202, 100, 100)
         self.labelScore.setFont(font)
 
+        self.lives1 = 3
         self.labelLifes.setText(str(br))
         self.labelLifes.setGeometry(1700, 162, 100, 100)
         self.labelLifes.setFont(font)
@@ -225,10 +225,16 @@ class SimMoveDemo(QMainWindow):
 
     def __update_position__(self, key):
         rec1 = self.label1.geometry()
-
+        """"
         if rec1.x() >= self.labelforce.x() - 10 and rec1.x() <= self.labelforce.x() + 10 and rec1.y() >= 755 and rec1.y() <= 785:
             self.hitF = True
             self.labelforce.hide()
+            self.timerP1.start()
+        """
+        if isHit(self.label1, self.labelforce):
+            self.hitF = True
+            self.labelforce.hide()
+            self.labelforce.setGeometry(-10, -10, 72, 56)
             self.timerP1.start()
 
         if key == Qt.Key_Right or key == Qt.Key_Left:
@@ -640,9 +646,16 @@ class SimMoveDemo(QMainWindow):
             self.label2.setGeometry(rec2.x() + 10, rec2.y() + 0, rec2.width(), rec2.height())
 
     def generateHeart(self):
-        for i in range(len(self.hearts)):
-            rec5 = self.hearts[i].geometry()
-            self.hearts[i].setGeometry(rec5.x(), rec5.y() + 4, rec5.width(), rec5.height())
+        for heart in self.hearts:
+            if isHit(self.label1, heart):
+                self.poeni1 += 1
+                self.labelScore.setText(str(self.poeni1))
+                heart.hide()
+                heart.setGeometry(0, 0, 30, 28)
+                self.hearts.remove(heart)
+            else:
+                rec5 = heart.geometry()
+                heart.setGeometry(rec5.x(), rec5.y() + 4, rec5.width(), rec5.height())
 
     def generateBombs(self):
         if not self.q.empty():
@@ -654,9 +667,15 @@ class SimMoveDemo(QMainWindow):
             self.bombs[len(self.bombs) - 1].show()
 
     def moveBombs(self):
-        for i in range(len(self.bombs)):
-            rec = self.bombs[i].geometry()
-            self.bombs[i].setGeometry(rec.x(), rec.y() + 6, rec.width(), rec.height())
+        for bomb in self.bombs:
+            rec = bomb.geometry()
+            bomb.setGeometry(rec.x(), rec.y() + 6, rec.width(), rec.height())
+            if isHit(bomb, self.label1):
+                self.lives1 -= 1
+                self.labelLifes.setText(str(self.lives1))
+                bomb.hide()
+                bomb.setGeometry(0, 0, rec.width(), rec.height())
+                self.bombs.remove(bomb)
 
     def moveBadzo(self):
         # if(self.hitSide):
