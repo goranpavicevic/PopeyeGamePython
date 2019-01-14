@@ -47,6 +47,7 @@ class SimMoveDemo(QMainWindow):
         self.pix30 = QPixmap('images\\BadzoR.png')
         self.pixForce = QPixmap('images\\force.png')
         self.gameover = QPixmap('images\\over.png')
+        self.izadji = QPixmap('images\\exit.png')
         self.hearts = []
 
         self.q = Queue()
@@ -85,8 +86,12 @@ class SimMoveDemo(QMainWindow):
         self.labelLevel = QLabel(self)
         self.ispisLabel1 = QLabel(self)
         self.playerRez1 = QLabel(self)
+        self.playerRez11 = QLabel(self)
         self.playerRez2 = QLabel(self)
+        self.playerRez22 = QLabel(self)
         self.gameoverLab = QLabel(self)
+        self.izlazIzIgre = QLabel(self)
+
 
         self.labelforce=QLabel(self)
         self.timerP1 = QTimer(self)
@@ -116,13 +121,20 @@ class SimMoveDemo(QMainWindow):
         self.hitRightDownStairsTop = False
 
         self.popeyeStep = 10
+
         self.poeni1 = 0
+        self.poeniPL1 = 0
+        self.poeniPL2 = 0
+        #self.rez1 = 0
         self.trenutniNivo = 1
+
         self.sprat = 1
 
         self.ispisLabel1.setText('Level: ')
         self.playerRez1.setText('Player1: ')
         self.playerRez2.setText('Player2: ')
+        self.playerRez11.setText(str(self.poeniPL1))
+        self.playerRez22.setText(str(self.poeniPL2))
         self.setWindowState(Qt.WindowFullScreen)
         self.__init_ui__(br, brLevel,brojIgraca)
 
@@ -198,7 +210,9 @@ class SimMoveDemo(QMainWindow):
         self.label3.setPixmap(self.pix3)
         self.label3.setGeometry(300, 570, 85, 75)
 
-
+        self.izlazIzIgre.setPixmap(self.izadji)
+        self.izlazIzIgre.setGeometry(900,50,120,47)
+        self.izlazIzIgre.mousePressEvent = self.close
 
         br += 1
         brLevel += 1
@@ -223,9 +237,13 @@ class SimMoveDemo(QMainWindow):
         self.ispisLabel1.setFont(font)
         if (brojIgraca == 2):
             self.playerRez1.setGeometry(200, 165, 100, 100)
+            self.playerRez11.setGeometry(350,165,100,100)
+            self.playerRez22.setGeometry(350, 205, 100, 100)
             self.playerRez2.setGeometry(200, 205, 100, 100)
             self.playerRez1.setFont(font)
             self.playerRez2.setFont(font)
+            self.playerRez11.setFont(font)
+            self.playerRez22.setFont(font)
 
         self.setWindowTitle('Popeye')
         self.show()
@@ -675,6 +693,8 @@ class SimMoveDemo(QMainWindow):
             if isHit(self.label1, heart):
                 self.poeni1 += 1
                 self.labelScore.setText(str(self.poeni1))
+                self.playerRez11.setText(str(self.poeni1))
+                self.playerRez22.setText(str(self.poeni1))
                 if (self.poeni1 % 3 == 0):
                     self.trenutniNivo += 1
                     self.labelLevel.setText(str(self.trenutniNivo))

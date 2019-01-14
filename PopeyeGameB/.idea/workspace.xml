@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1b899ab7-04bd-48b3-8cda-1021202d8344" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/GameOver.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/over.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/PopeyeGameB.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PopeyeGameB.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/exit.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/backround.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/backround.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sim_move_demo.py" beforeDir="false" afterPath="$PROJECT_DIR$/sim_move_demo.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/MYvvenv/" />
@@ -47,8 +43,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sim_move_demo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="234" lean-forward="true" selection-start-line="234" selection-end-line="234" />
+            <state relative-caret-position="190">
+              <caret line="263" column="43" lean-forward="true" selection-start-line="263" selection-start-column="43" selection-end-line="263" selection-end-column="43" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -59,7 +55,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Menu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
+            <state relative-caret-position="-442">
               <caret line="14" column="50" lean-forward="true" selection-start-line="14" selection-start-column="50" selection-end-line="14" selection-end-column="50" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
@@ -170,6 +166,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../BubbleTrouble-master/BubbleTrouble-master" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -433,7 +430,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Menu.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
+        <state relative-caret-position="-442">
           <caret line="14" column="50" lean-forward="true" selection-start-line="14" selection-start-column="50" selection-end-line="14" selection-end-column="50" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
@@ -443,8 +440,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sim_move_demo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="234" lean-forward="true" selection-start-line="234" selection-end-line="234" />
+        <state relative-caret-position="190">
+          <caret line="263" column="43" lean-forward="true" selection-start-line="263" selection-start-column="43" selection-end-line="263" selection-end-column="43" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
