@@ -41,12 +41,18 @@ def force(q):
             time.sleep(0.5)
 
 
+def jump(q):
+    while True:
+        time.sleep((randint(8, 12)))
+        q.put(1)
+
+
 def generateBottles(q):
     while True:
         time.sleep(randint(4, 7))
         for i in range(4):
             q.put(1)
-            time.sleep(0.1)
+            time.sleep(1)
 
 
 def BadzoFreezeProcess(start, stop):

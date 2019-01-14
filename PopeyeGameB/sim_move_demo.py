@@ -11,12 +11,11 @@ from oliveMovement import OliveMovement
 from badzoMovement import BadzoMovement
 from heartMovement import HeartMovement
 from random import randint
-from projectiles import force, BadzoFreezeProcess, isHit, generateBottles
+from projectiles import force, BadzoFreezeProcess, isHit, generateBottles, jump
 from HitForce import BombsMovement
 from rainingMan import RainingBombs
 from key_notifier2 import KeyNotifier2
 from bottlesMovement import BottleMovement
-
 br = 2
 brLevel = 0
 
@@ -31,7 +30,7 @@ class SimMoveDemo(QMainWindow):
         self.setPalette(palette)
 
         self.pix1 = QPixmap('images\\Popeye.png')
-        self.pix11 = QPixmap('images\\Popeye.png')      #-----------------
+        self.pix11 = QPixmap('images\\PopeyeR.png')
         self.pix2 = QPixmap('images\\oliveOyl.png')
 
         self.pix4 = QPixmap('images\\Ladders.png')
@@ -39,8 +38,8 @@ class SimMoveDemo(QMainWindow):
         self.pix6 = QPixmap('images\\Ladders.png')
         self.pix7 = QPixmap('images\\Ladders.png')
         self.pix3 = QPixmap('images\\Badzo.png')
-        self.pixBottleR = QPixmap('images\\flasaR.png')
-        self.pixBottleL = QPixmap('images\\flasaL.png')
+        self.pixBottleR = QPixmap('images\\barrelR.png')
+        self.pixBottleL = QPixmap('images\\barrel.png')
         self.pix32 = QPixmap('images\\BadzoR.png')
         self.pixHeart = QPixmap('images\\plavoSrce.png')
         self.pixBomb = QPixmap('images\\bomb.png')
@@ -62,6 +61,10 @@ class SimMoveDemo(QMainWindow):
         self.bottlesRight = []
         self.bottlesProcess.start()
         self.badzoR = False
+
+        self.jumpQueue = Queue()
+        self.jumpProcess = Process(target=jump, args=[self.jumpQueue])
+        self.jumpProcess.start()
 
         self.hitF = False
         self.zaustavio = False
@@ -239,12 +242,7 @@ class SimMoveDemo(QMainWindow):
 
     def __update_position__(self, key):
         rec1 = self.label1.geometry()
-        """"
-        if rec1.x() >= self.labelforce.x() - 10 and rec1.x() <= self.labelforce.x() + 10 and rec1.y() >= 755 and rec1.y() <= 785:
-            self.hitF = True
-            self.labelforce.hide()
-            self.timerP1.start()
-        """
+
         if isHit(self.label1, self.labelforce):
             self.hitF = True
             self.labelforce.hide()
@@ -264,6 +262,12 @@ class SimMoveDemo(QMainWindow):
                 self.bounds = True
             else:
                 self.bounds = False
+
+        if key == Qt.Key_Right:
+            self.label1.setPixmap(self.pix1)
+        else:
+            self.label1.setPixmap(self.pix11)
+
 
         if ((rec1.x() >= 270 and rec1.x() <= 300) and (rec1.y() >= 755 and rec1.y() <= 775)):
             self.hitLeftUpStairs = True
@@ -698,6 +702,10 @@ class SimMoveDemo(QMainWindow):
         #  rec3 = self.label30.geometry()
         rec3 = self.label3.geometry()
 
+        j = 0
+        if not self.jumpQueue.empty():
+            j = self.jumpQueue.get()
+
         if not self.hitSide2:
             self.label3.setPixmap(self.pix32)
         else:
@@ -718,6 +726,7 @@ class SimMoveDemo(QMainWindow):
 
         if (self.sprat == 1):
 
+            # if j == 1, skaci i radi sta hoces
             self.boolSkok += 1
             if (rec3.x() == 1500):
                 self.hitSide2 = True
@@ -888,12 +897,12 @@ class SimMoveDemo(QMainWindow):
             if self.hitSide2:
                 self.bottlesLeft.append(bottle)
                 self.bottlesLeft[len(self.bottlesLeft) - 1].setPixmap(self.pixBottleL)
-                self.bottlesLeft[len(self.bottlesLeft) - 1].setGeometry(rec.x(), rec.y(), 30, 26)
+                self.bottlesLeft[len(self.bottlesLeft) - 1].setGeometry(rec.x(), rec.y(), 40, 40)
                 self.bottlesLeft[len(self.bottlesLeft) - 1].show()
             else:
                 self.bottlesRight.append(bottle)
                 self.bottlesRight[len(self.bottlesRight) - 1].setPixmap(self.pixBottleR)
-                self.bottlesRight[len(self.bottlesRight) - 1].setGeometry(rec.x(), rec.y(), 30, 26)
+                self.bottlesRight[len(self.bottlesRight) - 1].setGeometry(rec.x(), rec.y(), 40, 40)
                 self.bottlesRight[len(self.bottlesRight) - 1].show()
 
         for bottle in self.bottlesRight:
