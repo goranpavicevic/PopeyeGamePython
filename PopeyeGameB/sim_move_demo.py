@@ -16,6 +16,7 @@ from HitForce import BombsMovement
 from rainingMan import RainingBombs
 from key_notifier2 import KeyNotifier2
 from bottlesMovement import BottleMovement
+from GameOver import GameOver
 br = 2
 brLevel = 0
 
@@ -45,6 +46,7 @@ class SimMoveDemo(QMainWindow):
         self.pixBomb = QPixmap('images\\bomb.png')
         self.pix30 = QPixmap('images\\BadzoR.png')
         self.pixForce = QPixmap('images\\force.png')
+        self.gameover = QPixmap('images\\over.png')
         self.hearts = []
 
         self.q = Queue()
@@ -81,7 +83,10 @@ class SimMoveDemo(QMainWindow):
         self.labelScore = QLabel(self)
         self.labelLifes = QLabel(self)
         self.labelLevel = QLabel(self)
-        self.pBar = QProgressBar(self)
+        self.ispisLabel1 = QLabel(self)
+        self.playerRez1 = QLabel(self)
+        self.playerRez2 = QLabel(self)
+        self.gameoverLab = QLabel(self)
 
         self.labelforce=QLabel(self)
         self.timerP1 = QTimer(self)
@@ -112,9 +117,14 @@ class SimMoveDemo(QMainWindow):
 
         self.popeyeStep = 10
         self.poeni1 = 0
+        self.trenutniNivo = 1
         self.sprat = 1
+
+        self.ispisLabel1.setText('Level: ')
+        self.playerRez1.setText('Player1: ')
+        self.playerRez2.setText('Player2: ')
         self.setWindowState(Qt.WindowFullScreen)
-        self.__init_ui__(br, brLevel)
+        self.__init_ui__(br, brLevel,brojIgraca)
 
         self.key_notifier = KeyNotifier()
 
@@ -156,7 +166,7 @@ class SimMoveDemo(QMainWindow):
         self.movingBottles.bottleMovementSignal.connect(self.moveBottles)
         self.movingBottles.start()
 
-    def __init_ui__(self,br,brLevel):
+    def __init_ui__(self,br,brLevel,brojIgraca):
 
         font = QtGui.QFont()
         font.setPointSize(40)
@@ -209,22 +219,19 @@ class SimMoveDemo(QMainWindow):
         self.labelLevel.setGeometry(300, 125, 100, 100)
         self.labelLevel.setFont(font)
 
-        self.pBar.setGeometry(140, 250, 300, 30)
+        self.ispisLabel1.setGeometry(200, 125, 100, 100)
+        self.ispisLabel1.setFont(font)
+        if (brojIgraca == 2):
+            self.playerRez1.setGeometry(200, 165, 100, 100)
+            self.playerRez2.setGeometry(200, 205, 100, 100)
+            self.playerRez1.setFont(font)
+            self.playerRez2.setFont(font)
 
         self.setWindowTitle('Popeye')
         self.show()
         self.labelforce.setPixmap(self.pixForce)
         self.timerP1.start(12000)
         self.timerP1.timeout.connect(self.timer_func)
-
-    def progressing(self):
-        self.step += 1
-        self.pBar.setValue(self.step)
-        if self.step == 100:
-            self.level_no += 1
-            self.step = 0
-            self.pbar.setValue(self.step)
-            self.labelLevel.setText(str(self.lev) + str(self.level_no))
 
     def keyPressEvent(self, event):
         a = event.key()
@@ -668,6 +675,13 @@ class SimMoveDemo(QMainWindow):
             if isHit(self.label1, heart):
                 self.poeni1 += 1
                 self.labelScore.setText(str(self.poeni1))
+                if (self.poeni1 % 3 == 0):
+                    self.trenutniNivo += 1
+                    self.labelLevel.setText(str(self.trenutniNivo))
+                    # self.quitOnEnd()
+                    # ODRADITI DA SE SIM_DEMO_MOVE ZATVARA NA KRAJU IGRE,POSTO GAMEOVER PROZOR IMA PONUDJENO QUIT ZA ZATVARANJE SVOG PROZORA
+                    # PRI CEMU OSTAJE SAMO OTVOREN MENU PROZOR,NAKON CEGA SE MOZE ZAPOCETI NOVA IGRA
+                    self.kraj = GameOver(1)
                 heart.hide()
                 heart.setGeometry(0, 0, 30, 28)
                 self.hearts.remove(heart)
