@@ -1,3 +1,6 @@
+import time
+from random import randint
+
 def isHit(first, second):
     rec1 = first.geometry()
     y1 = first.height()
@@ -28,3 +31,26 @@ def isHit(first, second):
             return True
         elif rec2.y() + y2 in range(rec1.y(), rec1.y() + y1):
             return True
+
+
+def force(q):
+    while True:
+        time.sleep(randint(15, 20))
+        for i in range(15):
+            q.put(randint(100, 1820))
+            time.sleep(0.5)
+
+
+def generateBottles(q):
+    while True:
+        time.sleep(randint(4, 7))
+        for i in range(4):
+            q.put(1)
+            time.sleep(0.5)
+
+
+def BadzoFreezeProcess(start, stop):
+    while True:
+        a = stop.get()
+        time.sleep(5)
+        start.put(1)

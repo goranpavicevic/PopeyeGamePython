@@ -11,11 +11,12 @@ from oliveMovement import OliveMovement
 from badzoMovement import BadzoMovement
 from heartMovement import HeartMovement
 from random import randint
-from HitForce import force, BombsMovement
+from projectiles import force, BadzoFreezeProcess, isHit, generateBottles
+from HitForce import BombsMovement
 from rainingMan import RainingBombs
-from BadzoFreeze import BadzoFreezeProcess
 from key_notifier2 import KeyNotifier2
-from Collision import isHit
+from bottlesMovement import BottleMovement
+
 br = 2
 brLevel = 0
 
@@ -52,6 +53,9 @@ class SimMoveDemo(QMainWindow):
         self.badzoStart = Queue()
         self.badzoBug = Process(target=BadzoFreezeProcess, args=[self.badzoStart, self.badzoStop])
         self.badzoBug.start()
+        self.bottlesQueue = Queue()
+        #self.bottlesProcess = Process(target=generateBottles, args=[self.bottlesQueue])
+        self.bottles = []
 
         self.hitF = False
         self.zaustavio = False
@@ -101,7 +105,7 @@ class SimMoveDemo(QMainWindow):
         self.poeni1 = 0
         self.sprat = 1
         self.setWindowState(Qt.WindowFullScreen)
-        self.__init_ui__(br,brLevel)
+        self.__init_ui__(br, brLevel)
 
         self.key_notifier = KeyNotifier()
 
@@ -138,6 +142,10 @@ class SimMoveDemo(QMainWindow):
         self.rainingBombs = RainingBombs()
         self.rainingBombs.rainingBombsSignal.connect(self.moveBombs)
         self.rainingBombs.start()
+
+        #self.movingBottles = BottleMovement()
+        #self.movingBottles.movingBottlesSignal.connect(self.moveBottles)
+        #self.movingBottles.start()
 
     def __init_ui__(self,br,brLevel):
 
@@ -684,6 +692,9 @@ class SimMoveDemo(QMainWindow):
         #  rec3 = self.label30.geometry()
         rec3 = self.label3.geometry()
 
+
+
+
         if self.hitF:
             if not self.zaustavio:
                 self.badzoStop.put(1)
@@ -860,6 +871,16 @@ class SimMoveDemo(QMainWindow):
     def closeEvent(self, event):
         self.key_notifier.die()
         self.key_notifier2.die()
+
+    def moveBottles(self):
+        if not self.bottlesQueue.empty():
+            x = self.bottlesQueue.get()
+            bottle = QLabel(self)
+            self.bottles.append(bottle)
+            self.bottles[len(self.bottles) - 1].setPixmap(self.pixBomb)
+            self.bottles[len(self.bottles) - 1].setGeometry(x, 10, 30, 26)
+            self.bottles[len(self.bottles) - 1].show()
+
 
 
 if __name__ == '__main__':

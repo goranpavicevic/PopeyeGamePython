@@ -1,13 +1,16 @@
-from PyQt5.QtCore import QThread,QObject,pyqtSignal,pyqtSlot
-from random import randint
+from PyQt5.QtCore import QThread, QObject, pyqtSignal, pyqtSlot
+
 import time
 
 
-class BombsMovement(QObject):
-    bombsMovementSignal = pyqtSignal()
+class BottleMovement(QObject):
+    bottleMovementSignal = pyqtSignal()
 
     def __init__(self):
         super().__init__()
+
+        #self.is_done = False
+
         self.thread = QThread()
         # move the Worker object to the Thread object
         # "push" self from the current thread to this thread
@@ -25,6 +28,7 @@ class BombsMovement(QObject):
         """
         End notifications.
         """
+        #self.is_done = True
         self.thread.quit()
 
     @pyqtSlot()
@@ -33,5 +37,5 @@ class BombsMovement(QObject):
         A slot with no params.
         """
         while True:
-            self.bombsMovementSignal.emit()
+            self.bottleMovementSignal.emit()
             time.sleep(0.08)
