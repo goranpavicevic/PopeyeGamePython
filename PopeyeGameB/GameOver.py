@@ -15,8 +15,8 @@ class GameOver(QMainWindow):
         self.label = QLabel(self)
 
         self.who_is_winner = QLabel(self)
-        self.who_is_winner1 = QPixmap('images\\JedanIgrac.png')
-        self.who_is_winner2 = QPixmap('images\\DvaIgraca.png')
+        self.who_is_winner1 = QPixmap('images\\player1-wins.png')
+        self.who_is_winner2 = QPixmap('images\\player2-wins.png')
         self.left = 400
         self.top = 200
         self.width = 1000

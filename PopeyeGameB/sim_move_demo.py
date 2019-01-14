@@ -82,7 +82,12 @@ class SimMoveDemo(QMainWindow):
         self.label3 = QLabel(self)
         self.label30 = QLabel(self)
         self.labelScore = QLabel(self)
-        self.labelLifes = QLabel(self)
+        self.labelLifes1 = QLabel(self)
+        self.labelLifes2 = QLabel(self)
+        self.life1ispis = QLabel(self)
+        self.life2ispis = QLabel(self)
+
+
         self.labelLevel = QLabel(self)
         self.ispisLabel1 = QLabel(self)
         self.playerRez1 = QLabel(self)
@@ -91,6 +96,7 @@ class SimMoveDemo(QMainWindow):
         self.playerRez22 = QLabel(self)
         self.gameoverLab = QLabel(self)
         self.izlazIzIgre = QLabel(self)
+
 
 
         self.labelforce=QLabel(self)
@@ -133,6 +139,10 @@ class SimMoveDemo(QMainWindow):
         self.ispisLabel1.setText('Level: ')
         self.playerRez1.setText('Player1: ')
         self.playerRez2.setText('Player2: ')
+
+        self.life1ispis.setText('Player1 Life: ')
+        self.life2ispis.setText('Player2 Life: ')
+
         self.playerRez11.setText(str(self.poeniPL1))
         self.playerRez22.setText(str(self.poeniPL2))
         self.setWindowState(Qt.WindowFullScreen)
@@ -217,17 +227,20 @@ class SimMoveDemo(QMainWindow):
         br += 1
         brLevel += 1
         font = QtGui.QFont()
-        font.setPointSize(30)
+        font.setPointSize(50)
+
 
         self.labelScore.setText(str(0))
-        self.labelScore.setGeometry(1700, 202, 100, 100)
+        self.labelScore.setGeometry(1725, 175, 100, 100)
         self.labelScore.setFont(font)
 
+        font.setPointSize(20)
         self.lives1 = 3
-        self.labelLifes.setText(str(br))
-        self.labelLifes.setGeometry(1700, 162, 100, 100)
-        self.labelLifes.setFont(font)
-
+        self.labelLifes1.setText(str(br))
+        self.labelLifes1.setGeometry(1650, 135, 100, 100)
+        self.labelLifes1.setFont(font)
+        self.life1ispis.setGeometry(1500, 135, 200, 100)
+        self.life1ispis.setFont(font)
         font.setPointSize(20)
         self.labelLevel.setText(str(brLevel))
         self.labelLevel.setGeometry(300, 125, 100, 100)
@@ -244,6 +257,11 @@ class SimMoveDemo(QMainWindow):
             self.playerRez2.setFont(font)
             self.playerRez11.setFont(font)
             self.playerRez22.setFont(font)
+            self.life2ispis.setGeometry(1500,205,200,100)
+            self.life2ispis.setFont(font)
+            self.labelLifes2.setText(str(br))
+            self.labelLifes2.setGeometry(1650, 205, 100, 100)
+            self.labelLifes2.setFont(font)
 
         self.setWindowTitle('Popeye')
         self.show()
@@ -691,17 +709,20 @@ class SimMoveDemo(QMainWindow):
     def generateHeart(self):
         for heart in self.hearts:
             if isHit(self.label1, heart):
+                #DODATI JOS JEDAN IF KOJI PLAYER JE POKUPIO SRCE
                 self.poeni1 += 1
-                self.labelScore.setText(str(self.poeni1))
+                #self.poeni2 +=1
+                self.labelScore.setText(str(self.poeni1))   #UKUPNI REZULTAT KOLIKO JE SRCA POKUPLJENO - NA SVAKIH 10 SE POVECAVA LEVEL
                 self.playerRez11.setText(str(self.poeni1))
-                self.playerRez22.setText(str(self.poeni1))
-                if (self.poeni1 % 3 == 0):
+                #self.playerRez22.setText(str(self.poeni2))
+                if (self.poeni1 % 2 == 0):
                     self.trenutniNivo += 1
                     self.labelLevel.setText(str(self.trenutniNivo))
                     # self.quitOnEnd()
                     # ODRADITI DA SE SIM_DEMO_MOVE ZATVARA NA KRAJU IGRE,POSTO GAMEOVER PROZOR IMA PONUDJENO QUIT ZA ZATVARANJE SVOG PROZORA
                     # PRI CEMU OSTAJE SAMO OTVOREN MENU PROZOR,NAKON CEGA SE MOZE ZAPOCETI NOVA IGRA
-                    self.kraj = GameOver(1)
+                    self.kraj = GameOver(1)        #GAMEOVER PROZOR STAVITI KAD IGRAC IZGUBI ZIVOT, NE ZNAM GDE STE STAVILI KOLIZIJU BADZE I POPAJA
+                    #GameOver(1) PROSLEDJUJE SE PARAMETAR, AKO JE 1 ONDA CE IZACI SLIKA KOJI IGRAC JE POBEDIO,BILO KOJI DRUGI BR ZNACI DA JE POBEDIO DRUGI IGRAC
                 heart.hide()
                 heart.setGeometry(0, 0, 30, 28)
                 self.hearts.remove(heart)
