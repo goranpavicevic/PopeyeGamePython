@@ -14,7 +14,6 @@ class Menu(QMainWindow):
 
         oImage = QImage("images\\MenuPicture.png")
 
-
         self.label = QLabel(self)
         self.label1Player = QLabel(self)
         self.oneplayer = QPixmap('images\\JedanIgrac.png')
@@ -70,12 +69,14 @@ class Menu(QMainWindow):
         self.show()
 
     def one_players_on_click(self,event):
-        self.one = SimMoveDemo(1)
+        self.one = SimMoveDemo(1, 1)
         self.one.show()
+        self.hide()
 
     def two_players_on_click(self,event):
-        self.two = SimMoveDemo(2)
+        self.two = SimMoveDemo(2, 1)
         self.two.show()
+        self.hide()
 
     def quit_on_click(self):
         self.close()

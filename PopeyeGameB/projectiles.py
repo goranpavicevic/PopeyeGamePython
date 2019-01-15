@@ -49,7 +49,7 @@ def jump(q):
 
 def generateBottles(q):
     while True:
-        time.sleep(randint(4, 7))
+        time.sleep(randint(10, 17))
         for i in range(4):
             q.put(1)
             time.sleep(1)

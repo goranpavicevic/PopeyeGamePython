@@ -21,7 +21,7 @@ br = 2
 brLevel = 0
 
 class SimMoveDemo(QMainWindow):
-    def __init__(self, brojIgraca):
+    def __init__(self, brojIgraca, lvlNumber):
         super().__init__()
 
         oImage = QImage("images\\backround.png")
@@ -86,7 +86,7 @@ class SimMoveDemo(QMainWindow):
         self.labelLifes2 = QLabel(self)
         self.life1ispis = QLabel(self)
         self.life2ispis = QLabel(self)
-
+        self.one = None
 
         self.labelLevel = QLabel(self)
         self.ispisLabel1 = QLabel(self)
@@ -132,16 +132,16 @@ class SimMoveDemo(QMainWindow):
         self.poeniPL1 = 0
         self.poeniPL2 = 0
         #self.rez1 = 0
-        self.trenutniNivo = 1
+        self.trenutniNivo = lvlNumber
 
         self.sprat = 1
 
-        self.ispisLabel1.setText('Level: ')
-        self.playerRez1.setText('Player1: ')
-        self.playerRez2.setText('Player2: ')
+        self.ispisLabel1.setText('Lvl: ')
+        self.playerRez1.setText('P1: ')
+        self.playerRez2.setText('P2: ')
 
-        self.life1ispis.setText('Player1 Life: ')
-        self.life2ispis.setText('Player2 Life: ')
+        self.life1ispis.setText('P1 Life: ')
+        self.life2ispis.setText('P2 Life: ')
 
         self.playerRez11.setText(str(self.poeniPL1))
         self.playerRez22.setText(str(self.poeniPL2))
@@ -188,7 +188,7 @@ class SimMoveDemo(QMainWindow):
         self.movingBottles.bottleMovementSignal.connect(self.moveBottles)
         self.movingBottles.start()
 
-    def __init_ui__(self,br,brLevel,brojIgraca):
+    def __init_ui__(self, br, brLevel, brojIgraca):
 
         font = QtGui.QFont()
         font.setPointSize(40)
@@ -221,8 +221,8 @@ class SimMoveDemo(QMainWindow):
         self.label3.setGeometry(300, 570, 85, 75)
 
         self.izlazIzIgre.setPixmap(self.izadji)
-        self.izlazIzIgre.setGeometry(900,50,120,47)
-        self.izlazIzIgre.mousePressEvent = self.close
+        self.izlazIzIgre.setGeometry(900, 50, 120, 47)
+        self.izlazIzIgre.mousePressEvent = self.shutdown
 
         br += 1
         brLevel += 1
@@ -236,13 +236,14 @@ class SimMoveDemo(QMainWindow):
 
         font.setPointSize(20)
         self.lives1 = 3
+        self.lives2 = 3
         self.labelLifes1.setText(str(br))
         self.labelLifes1.setGeometry(1650, 135, 100, 100)
         self.labelLifes1.setFont(font)
         self.life1ispis.setGeometry(1500, 135, 200, 100)
         self.life1ispis.setFont(font)
         font.setPointSize(20)
-        self.labelLevel.setText(str(brLevel))
+        self.labelLevel.setText(str(self.trenutniNivo))
         self.labelLevel.setGeometry(300, 125, 100, 100)
         self.labelLevel.setFont(font)
 
@@ -692,7 +693,7 @@ class SimMoveDemo(QMainWindow):
             self.hitSide = False
 
         a = randint(0, 1000)
-        if a % 125 == 0:
+        if a % 10 == 0:
             heart = QLabel(self)
             heart.setPixmap(self.pixHeart)
             heart.setGeometry(rec2.x(), rec2.y() + 50, 30, 26)
@@ -709,20 +710,22 @@ class SimMoveDemo(QMainWindow):
     def generateHeart(self):
         for heart in self.hearts:
             if isHit(self.label1, heart):
-                #DODATI JOS JEDAN IF KOJI PLAYER JE POKUPIO SRCE
-                self.poeni1 += 1
-                #self.poeni2 +=1
-                self.labelScore.setText(str(self.poeni1))   #UKUPNI REZULTAT KOLIKO JE SRCA POKUPLJENO - NA SVAKIH 10 SE POVECAVA LEVEL
-                self.playerRez11.setText(str(self.poeni1))
-                #self.playerRez22.setText(str(self.poeni2))
-                if (self.poeni1 % 2 == 0):
-                    self.trenutniNivo += 1
-                    self.labelLevel.setText(str(self.trenutniNivo))
-                    # self.quitOnEnd()
-                    # ODRADITI DA SE SIM_DEMO_MOVE ZATVARA NA KRAJU IGRE,POSTO GAMEOVER PROZOR IMA PONUDJENO QUIT ZA ZATVARANJE SVOG PROZORA
-                    # PRI CEMU OSTAJE SAMO OTVOREN MENU PROZOR,NAKON CEGA SE MOZE ZAPOCETI NOVA IGRA
-                    self.kraj = GameOver(1)        #GAMEOVER PROZOR STAVITI KAD IGRAC IZGUBI ZIVOT, NE ZNAM GDE STE STAVILI KOLIZIJU BADZE I POPAJA
-                    #GameOver(1) PROSLEDJUJE SE PARAMETAR, AKO JE 1 ONDA CE IZACI SLIKA KOJI IGRAC JE POBEDIO,BILO KOJI DRUGI BR ZNACI DA JE POBEDIO DRUGI IGRAC
+                self.poeniPL1 += 1
+                self.labelScore.setText(str(self.poeniPL1 + self.poeniPL2))
+                self.playerRez11.setText(str(self.poeniPL1))
+                if self.poeniPL1 == 5:
+                    self.newLevel()
+                else:
+                    heart.hide()
+                    heart.setGeometry(0, 0, 30, 28)
+                    self.hearts.remove(heart)
+            elif isHit(self.label11, heart):
+                self.poeniPL2 += 1
+                self.labelScore.setText(str(self.poeniPL1 + self.poeniPL2))
+                self.playerRez22.setText(str(self.poeniPL2))
+                if self.poeniPL2 == 10:
+                    self.label11.hide()
+                    # self.kraj = GameOver(2)
                 heart.hide()
                 heart.setGeometry(0, 0, 30, 28)
                 self.hearts.remove(heart)
@@ -745,9 +748,15 @@ class SimMoveDemo(QMainWindow):
             bomb.setGeometry(rec.x(), rec.y() + 6, rec.width(), rec.height())
             if isHit(bomb, self.label1):
                 self.lives1 -= 1
-                self.labelLifes.setText(str(self.lives1))
-                bomb.hide()
+                self.labelLifes1.setText(str(self.lives1))
                 bomb.setGeometry(0, 0, rec.width(), rec.height())
+                bomb.hide()
+                self.bombs.remove(bomb)
+            if isHit(bomb, self.label11):
+                self.lives2 -= 1
+                self.labelLifes2.setText(str(self.lives2))
+                bomb.setGeometry(0, 0, rec.width(), rec.height())
+                bomb.hide()
                 self.bombs.remove(bomb)
 
     def moveBadzo(self):
@@ -919,6 +928,7 @@ class SimMoveDemo(QMainWindow):
             elif self.hitSide2 == False:
                 self.label3.setGeometry(rec3.x() + 10, rec3.y() + 0, rec3.width(), rec3.height())
                 self.BoolBadzaMerdevine = random.randint(0, 1)
+
     def timer_func(self):
         x = random.randint(300, 1500)
         self.labelforce.setGeometry(x, 780, 72, 56)
@@ -964,9 +974,34 @@ class SimMoveDemo(QMainWindow):
                 bottle.hide()
                 self.bottlesLeft.remove(bottle)
 
+    def shutdown(self, event):
+        self.jumpProcess.terminate()
+        self.bottlesProcess.terminate()
+        self.unexpectedForce.terminate()
+        self.badzoBug.terminate()
+        self.close()
 
+    def newLevel(self):
+        self.badzoBug.terminate()
+        self.unexpectedForce.terminate()
+        self.jumpProcess.terminate()
+        self.bottlesProcess.terminate()
+        self.oliveMovement.die()
+        self.badzoMovement.die()
+        self.heartMovement.die()
+        self.rainingBombs.die()
+        self.movingBottles.die()
+        self.key_notifier.die()
+        # self.key_notifier2.die()
+        if self.brojIgracaJedan:
+            x = 1
+        else:
+            x = 2
+
+        self.one = SimMoveDemo(x, self.trenutniNivo + 1)
+        self.hide()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = SimMoveDemo()
+    ex = SimMoveDemo(1, 1)
     sys.exit(app.exec_())
