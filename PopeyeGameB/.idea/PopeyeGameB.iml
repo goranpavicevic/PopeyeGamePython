@@ -4,7 +4,11 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/MYvvenv" />
     </content>
+<<<<<<< Updated upstream
     <orderEntry type="jdk" jdkName="Python 3.7 (MyVenv)" jdkType="Python SDK" />
+=======
+    <orderEntry type="jdk" jdkName="Python 3.6 (MYvvenv) (2)" jdkType="Python SDK" />
+>>>>>>> Stashed changes
     <orderEntry type="jdk" jdkName="Python 3.6.6 virtualenv at S:\profile.V6\Desktop\BLOK4\PopeyeGameProject\PopeyeGamePython\PopeyeGameB\MYvvenv" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

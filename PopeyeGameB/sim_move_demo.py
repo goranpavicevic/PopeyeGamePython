@@ -133,7 +133,7 @@ class SimMoveDemo(QMainWindow):
         self.poeniPL2 = 0
         #self.rez1 = 0
         self.trenutniNivo = lvlNumber
-
+        self.kraj = None
         self.sprat = 1
 
         self.ispisLabel1.setText('Lvl: ')
@@ -153,6 +153,7 @@ class SimMoveDemo(QMainWindow):
         if (brojIgraca == 1):
             self.key_notifier.key_signal.connect(self.__update_position__)  # -----------------
             self.brojIgracaJedan = True
+            self.label11.setGeometry(-1200, -954, 75, 75)
         else:
             self.brojIgracaJedan = False
             self.label11.setPixmap(self.pix11)  # ---------------------------
@@ -714,7 +715,14 @@ class SimMoveDemo(QMainWindow):
                 self.labelScore.setText(str(self.poeniPL1 + self.poeniPL2))
                 self.playerRez11.setText(str(self.poeniPL1))
                 if self.poeniPL1 == 5:
-                    self.newLevel()
+                    if self.brojIgracaJedan:
+                        self.newLevel()
+                    else:
+                        if self.poeniPL2 == 5:
+                            self.newLevel()
+                        else:
+                            self.label1.hide()
+                            self.label1.setGeometry(-200, -200, 75, 75)
                 else:
                     heart.hide()
                     heart.setGeometry(0, 0, 30, 28)
@@ -723,12 +731,16 @@ class SimMoveDemo(QMainWindow):
                 self.poeniPL2 += 1
                 self.labelScore.setText(str(self.poeniPL1 + self.poeniPL2))
                 self.playerRez22.setText(str(self.poeniPL2))
-                if self.poeniPL2 == 10:
-                    self.label11.hide()
-                    # self.kraj = GameOver(2)
-                heart.hide()
-                heart.setGeometry(0, 0, 30, 28)
-                self.hearts.remove(heart)
+                if self.poeniPL2 == 5:
+                    if self.poeniPL1 == 5:
+                       self.newLevel()
+                    else:
+                         self.label11.hide()
+                         self.label11.setGeometry(-200, -200, 75, 75)
+                else:
+                    heart.hide()
+                    heart.setGeometry(0, 0, 30, 28)
+                    self.hearts.remove(heart)
             else:
                 rec5 = heart.geometry()
                 heart.setGeometry(rec5.x(), rec5.y() + 4, rec5.width(), rec5.height())
@@ -752,6 +764,11 @@ class SimMoveDemo(QMainWindow):
                 bomb.setGeometry(0, 0, rec.width(), rec.height())
                 bomb.hide()
                 self.bombs.remove(bomb)
+                if self.lives1 == 0:
+                    if self.brojIgracaJedan:
+                        self.kraj = GameOver(1)
+                    else:
+                        self.kraj = GameOver(2)
             if isHit(bomb, self.label11):
                 self.lives2 -= 1
                 self.labelLifes2.setText(str(self.lives2))
@@ -942,7 +959,16 @@ class SimMoveDemo(QMainWindow):
 
     def closeEvent(self, event):
         self.key_notifier.die()
-        self.key_notifier2.die()
+        self.badzoBug.terminate()
+        self.unexpectedForce.terminate()
+        self.jumpProcess.terminate()
+        self.bottlesProcess.terminate()
+        self.oliveMovement.die()
+        self.badzoMovement.die()
+        self.heartMovement.die()
+        self.rainingBombs.die()
+        self.movingBottles.die()
+        self.key_notifier.die()
 
     def moveBottles(self):
         rec = self.label3.geometry()
@@ -982,24 +1008,13 @@ class SimMoveDemo(QMainWindow):
         self.close()
 
     def newLevel(self):
-        self.badzoBug.terminate()
-        self.unexpectedForce.terminate()
-        self.jumpProcess.terminate()
-        self.bottlesProcess.terminate()
-        self.oliveMovement.die()
-        self.badzoMovement.die()
-        self.heartMovement.die()
-        self.rainingBombs.die()
-        self.movingBottles.die()
-        self.key_notifier.die()
-        # self.key_notifier2.die()
         if self.brojIgracaJedan:
             x = 1
         else:
             x = 2
 
         self.one = SimMoveDemo(x, self.trenutniNivo + 1)
-        self.hide()
+        self.close()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

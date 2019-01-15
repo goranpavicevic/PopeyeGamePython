@@ -30,7 +30,8 @@ class KeyNotifier2(QObject):
         self.keys.append(key)
 
     def rem_key(self, key):
-        self.keys.remove(key)
+        if len(self.keys) > 0:
+            self.keys.remove(key)
 
     def die(self):
         """
