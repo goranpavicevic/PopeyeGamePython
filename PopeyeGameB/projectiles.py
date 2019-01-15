@@ -37,7 +37,7 @@ def force(q):
     while True:
         time.sleep(randint(15, 20))
         for i in range(15):
-            q.put(randint(100, 1820))
+            q.put(randint(100, 1780))
             time.sleep(0.5)
 
 
@@ -49,7 +49,7 @@ def jump(q):
 
 def generateBottles(q):
     while True:
-        time.sleep(randint(10, 17))
+        time.sleep(randint(1, 7))
         for i in range(4):
             q.put(1)
             time.sleep(1)
@@ -60,3 +60,10 @@ def BadzoFreezeProcess(start, stop):
         a = stop.get()
         time.sleep(5)
         start.put(1)
+
+
+def restartPlayer(label, p):
+    if p == 1:
+        label.setGeometry(1850, 385, 75, 75)
+    else:
+        label.setGeometry(10, 385, 75, 75)

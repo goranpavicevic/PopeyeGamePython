@@ -11,7 +11,7 @@ from oliveMovement import OliveMovement
 from badzoMovement import BadzoMovement
 from heartMovement import HeartMovement
 from random import randint
-from projectiles import force, BadzoFreezeProcess, isHit, generateBottles, jump
+from projectiles import force, BadzoFreezeProcess, isHit, generateBottles, jump, restartPlayer
 from HitForce import BombsMovement
 from rainingMan import RainingBombs
 from key_notifier2 import KeyNotifier2
@@ -32,6 +32,8 @@ class SimMoveDemo(QMainWindow):
 
         self.pix1 = QPixmap('images\\Popeye.png')
         self.pix11 = QPixmap('images\\PopeyeR.png')
+        self.pix12 = QPixmap('images\\Popeye2.png')
+        self.pix112 = QPixmap('images\\Popeye2R.png')
         self.pix2 = QPixmap('images\\oliveOyl.png')
 
         self.pix4 = QPixmap('images\\Ladders.png')
@@ -156,7 +158,7 @@ class SimMoveDemo(QMainWindow):
             self.label11.setGeometry(-1200, -954, 75, 75)
         else:
             self.brojIgracaJedan = False
-            self.label11.setPixmap(self.pix11)  # ---------------------------
+            self.label11.setPixmap(self.pix112)  # ---------------------------
             self.label11.setGeometry(1200, 954, 75, 75)  # -----------------------
             self.key_notifier2 = KeyNotifier2()
             self.key_notifier.key_signal.connect(self.__update_position__)  # -----------------
@@ -200,14 +202,14 @@ class SimMoveDemo(QMainWindow):
         self.label2.setPixmap(self.pix2)
         self.label2.setGeometry(550, 250, 75, 100)
         self.label4.setPixmap(self.pix4)
-        self.randx = random.randint(300, 1500)
+        self.randx = random.randint(320, 1480)
         p = self.randx % 10
         self.merdevine1 = self.randx - p
         self.BoolBadzaMerdevine = False
         self.label4.setGeometry(self.merdevine1, 650, 90, 180)
 
         self.label5.setPixmap(self.pix5)
-        self.randx2 = random.randint(300, 1500)
+        self.randx2 = random.randint(320, 1480)
         p1 = self.randx2 % 10
         self.merdevine2 = self.randx2 - p1
         self.label5.setGeometry(self.merdevine2, 850, 90, 180)
@@ -310,7 +312,7 @@ class SimMoveDemo(QMainWindow):
 
         if key == Qt.Key_Right:
             self.label1.setPixmap(self.pix1)
-        else:
+        elif key == Qt.Key_Left:
             self.label1.setPixmap(self.pix11)
 
 
@@ -340,43 +342,44 @@ class SimMoveDemo(QMainWindow):
             self.hitRightDownStairs = False
 
         if key == Qt.Key_Right:
-            if ((rec1.x() >= 270 and rec1.x() <= 290) and (rec1.y() >= 755 and rec1.y() <= 770)):
-                self.hitLeftUpStairs = True
-            else:
-                self.hitLeftUpStairs = False
-            if ((rec1.x() >= 80 and rec1.x() <= 100) and (rec1.y() >= 540 and rec1.y() <= 575)):
-                self.hitLeftUpStairsTop = True
-            else:
-                self.hitLeftUpStairsTop = False
-            if ((rec1.x() >= 1780 and rec1.x() <= 1820) and (rec1.y() >= 540 and rec1.y() <= 570)):
-                self.hitRightUpStairsTop = True
-            else:
-                self.hitRightUpStairsTop = False
-            if ((rec1.x() >= 1570 and rec1.x() <= 1610) and (rec1.y() >= 755 and rec1.y() <= 770)):
-                self.hitRightUpStairs = True
-            else:
-                self.hitRightUpStairs = False
-            if ((rec1.x() >= 270 and rec1.x() <= 290) and (rec1.y() >= 950 and rec1.y() <= 965)):
-                self.hitLeftDownStairs = True
-            else:
-                self.hitLeftDownStairs = False
-            if ((rec1.x() >= 80 and rec1.x() <= 110) and (rec1.y() >= 755 and rec1.y() <= 770)):
-                self.hitLeftDownStairsTop = True
-            else:
-                self.hitLeftDownStairsTop = False
-            if ((rec1.x() >= 1570 and rec1.x() <= 1610) and (rec1.y() >= 950 and rec1.y() <= 965)):
-                self.hitRightDownStairs = True
-            else:
-                self.hitRightDownStairs = False
-            if ((rec1.x() >= 1760 and rec1.x() <= 1820) and (rec1.y() >= 755 and rec1.y() <= 770)):
-                self.hitRightDownStairsTop = True
-            else:
-                self.hitRightDownStairsTop = False
+            if(rec1.x() <= 1855):
+                if ((rec1.x() >= 270 and rec1.x() <= 290) and (rec1.y() >= 755 and rec1.y() <= 770)):
+                    self.hitLeftUpStairs = True
+                else:
+                    self.hitLeftUpStairs = False
+                if ((rec1.x() >= 80 and rec1.x() <= 100) and (rec1.y() >= 540 and rec1.y() <= 575)):
+                    self.hitLeftUpStairsTop = True
+                else:
+                    self.hitLeftUpStairsTop = False
+                if ((rec1.x() >= 1780 and rec1.x() <= 1820) and (rec1.y() >= 540 and rec1.y() <= 570)):
+                    self.hitRightUpStairsTop = True
+                else:
+                    self.hitRightUpStairsTop = False
+                if ((rec1.x() >= 1570 and rec1.x() <= 1610) and (rec1.y() >= 755 and rec1.y() <= 770)):
+                    self.hitRightUpStairs = True
+                else:
+                    self.hitRightUpStairs = False
+                if ((rec1.x() >= 270 and rec1.x() <= 290) and (rec1.y() >= 950 and rec1.y() <= 965)):
+                    self.hitLeftDownStairs = True
+                else:
+                    self.hitLeftDownStairs = False
+                if ((rec1.x() >= 80 and rec1.x() <= 110) and (rec1.y() >= 755 and rec1.y() <= 770)):
+                    self.hitLeftDownStairsTop = True
+                else:
+                    self.hitLeftDownStairsTop = False
+                if ((rec1.x() >= 1570 and rec1.x() <= 1610) and (rec1.y() >= 950 and rec1.y() <= 965)):
+                    self.hitRightDownStairs = True
+                else:
+                    self.hitRightDownStairs = False
+                if ((rec1.x() >= 1760 and rec1.x() <= 1820) and (rec1.y() >= 755 and rec1.y() <= 770)):
+                    self.hitRightDownStairsTop = True
+                else:
+                    self.hitRightDownStairsTop = False
 
-            if (rec1.x() < 1800 and (rec1.y() <= 960 and rec1.y() > 935) or (rec1.y() > 755 and rec1.y() < 780) or (
-                    rec1.y() > 550 and rec1.y() < 575) or (
-                    (rec1.y() > 371 and rec1.y() < 390) and (rec1.x() < 450 or rec1.x() >= 1400))):
-                self.label1.setGeometry(rec1.x() + self.popeyeStep, rec1.y(), rec1.width(), rec1.height())
+                if (rec1.x() < 1800 and (rec1.y() <= 960 and rec1.y() > 935) or (rec1.y() > 755 and rec1.y() < 780) or (
+                        rec1.y() > 550 and rec1.y() < 575) or (
+                        (rec1.y() > 371 and rec1.y() < 390) and (rec1.x() < 450 or rec1.x() >= 1400))):
+                    self.label1.setGeometry(rec1.x() + self.popeyeStep, rec1.y(), rec1.width(), rec1.height())
         elif key == Qt.Key_Down:
             if (rec1.y() <= 953):
 
@@ -509,6 +512,12 @@ class SimMoveDemo(QMainWindow):
                 self.bounds = True
             else:
                 self.bounds = False
+
+        if key == Qt.Key_D:
+            self.label11.setPixmap(self.pix12)
+        elif key == Qt.Key_A:
+            self.label11.setPixmap(self.pix112)
+
 
         if ((rec1.x() >= 270 and rec1.x() <= 300) and (rec1.y() >= 755 and rec1.y() <= 775)):
             self.hitLeftUpStairs2 = True
@@ -694,7 +703,7 @@ class SimMoveDemo(QMainWindow):
             self.hitSide = False
 
         a = randint(0, 1000)
-        if a % 10 == 0:
+        if a % 80 == 0:
             heart = QLabel(self)
             heart.setPixmap(self.pixHeart)
             heart.setGeometry(rec2.x(), rec2.y() + 50, 30, 26)
@@ -714,11 +723,11 @@ class SimMoveDemo(QMainWindow):
                 self.poeniPL1 += 1
                 self.labelScore.setText(str(self.poeniPL1 + self.poeniPL2))
                 self.playerRez11.setText(str(self.poeniPL1))
-                if self.poeniPL1 == 5:
+                if self.poeniPL1 == 15:
                     if self.brojIgracaJedan:
                         self.newLevel()
                     else:
-                        if self.poeniPL2 == 5:
+                        if self.poeniPL2 == 15:
                             self.newLevel()
                         else:
                             self.label1.hide()
@@ -731,8 +740,8 @@ class SimMoveDemo(QMainWindow):
                 self.poeniPL2 += 1
                 self.labelScore.setText(str(self.poeniPL1 + self.poeniPL2))
                 self.playerRez22.setText(str(self.poeniPL2))
-                if self.poeniPL2 == 5:
-                    if self.poeniPL1 == 5:
+                if self.poeniPL2 == 15:
+                    if self.poeniPL1 == 15:
                        self.newLevel()
                     else:
                          self.label11.hide()
@@ -766,18 +775,42 @@ class SimMoveDemo(QMainWindow):
                 self.bombs.remove(bomb)
                 if self.lives1 == 0:
                     if self.brojIgracaJedan:
-                        self.kraj = GameOver(1)
+                        self.kraj = GameOver(0, self.poeniPL1)
+                        self.close()
                     else:
-                        self.kraj = GameOver(2)
+                        self.kraj = GameOver(2, self.poeniPL1)
+                        self.close()
             if isHit(bomb, self.label11):
                 self.lives2 -= 1
                 self.labelLifes2.setText(str(self.lives2))
                 bomb.setGeometry(0, 0, rec.width(), rec.height())
                 bomb.hide()
                 self.bombs.remove(bomb)
+                if self.lives2 == 0:
+                    self.kraj = GameOver(1, self.poeniPL1)
+                    self.close()
 
     def moveBadzo(self):
         rec3 = self.label3.geometry()
+
+        if isHit(self.label3, self.label1):
+            self.lives1 -= 1
+            self.labelLifes1.setText(str(self.lives1))
+            if self.lives1 == 0:
+                if self.brojIgracaJedan:
+                    self.kraj = GameOver(0, self.poeniPL1)
+                    self.close()
+                else:
+                    self.kraj = GameOver(2, self.poeniPL1)
+                    self.close()
+            restartPlayer(self.label1, 1)
+        if isHit(self.label3, self.label11):
+            self.lives2 -= 1
+            self.labelLifes2.setText(str(self.lives2))
+            if self.lives2 == 0:
+                self.kraj = GameOver(1, self.poeniPL1)
+                self.close()
+            restartPlayer(self.label11, 2)
 
         j = 0
         if not self.jumpQueue.empty():
@@ -992,6 +1025,30 @@ class SimMoveDemo(QMainWindow):
             if recb.x() > 1900:
                 bottle.hide()
                 self.bottlesRight.remove(bottle)
+            if isHit(bottle, self.label1):
+                self.lives1 -= 1
+                self.labelLifes1.setText(str(self.lives1))
+                bottle.setGeometry(0, 0, rec.width(), rec.height())
+                bottle.hide()
+                self.bottlesRight.remove(bottle)
+                if self.lives1 == 0:
+                    if self.brojIgracaJedan:
+                        self.kraj = GameOver(0, self.poeniPL1)
+                        self.close()
+                    else:
+                        self.kraj = GameOver(2, self.poeniPL1)
+                        self.close()
+                #restartPlayer(self.label1, 1)
+            if isHit(bottle, self.label11):
+                self.lives2 -= 1
+                self.labelLifes2.setText(str(self.lives2))
+                bottle.setGeometry(0, 0, rec.width(), rec.height())
+                bottle.hide()
+                self.bottlesRight.remove(bottle)
+                if self.lives2 == 0:
+                    self.kraj = GameOver(1, self.poeniPL1)
+                    self.close()
+                #restartPlayer(self.label11, 1)
 
         for bottle in self.bottlesLeft:
             recb = bottle.geometry()
@@ -999,6 +1056,30 @@ class SimMoveDemo(QMainWindow):
             if recb.x() < 20:
                 bottle.hide()
                 self.bottlesLeft.remove(bottle)
+            if isHit(bottle, self.label1):
+                self.lives1 -= 1
+                self.labelLifes1.setText(str(self.lives1))
+                bottle.setGeometry(0, 0, rec.width(), rec.height())
+                bottle.hide()
+                self.bottlesLeft.remove(bottle)
+                if self.lives1 == 0:
+                    if self.brojIgracaJedan:
+                        self.kraj = GameOver(0, self.poeniPL1)
+                        self.close()
+                    else:
+                        self.kraj = GameOver(2, self.poeniPL1)
+                        self.close()
+                #restartPlayer(self.label1, 1)
+            if isHit(bottle, self.label11):
+                self.lives2 -= 1
+                self.labelLifes2.setText(str(self.lives2))
+                bottle.setGeometry(0, 0, rec.width(), rec.height())
+                bottle.hide()
+                self.bottlesLeft.remove(bottle)
+                if self.lives2 == 0:
+                    self.kraj = GameOver(1, self.poeniPL1)
+                    self.close()
+                #restartPlayer(self.label11, 1)
 
     def shutdown(self, event):
         self.jumpProcess.terminate()
