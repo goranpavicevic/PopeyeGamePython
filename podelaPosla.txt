@@ -1,4 +1,0 @@
-aleksa - iscrtavanje grafike i random merdevine
-boske - oliva, popaj i badza kretanje
-gole - pozicioniranje karaktera na pocetak, meni, 1 player, 2 player, exit.. ubaciti muziku u igru(nemacki rep)
-ervin - projektili, kolizija, scor, fullscreen, kretanje u smeru(animacija)

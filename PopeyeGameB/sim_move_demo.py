@@ -74,8 +74,7 @@ class SimMoveDemo(QMainWindow):
         self.hitF = False
         self.zaustavio = False
 
-        self.label1 = QLabel(self)
-        self.label11 = QLabel(self)
+
         self.label2 = QLabel(self)
         self.label4 = QLabel(self)
         self.label5 = QLabel(self)
@@ -88,6 +87,8 @@ class SimMoveDemo(QMainWindow):
         self.labelLifes2 = QLabel(self)
         self.life1ispis = QLabel(self)
         self.life2ispis = QLabel(self)
+        self.label1 = QLabel(self)
+        self.label11 = QLabel(self)
         self.one = None
 
         self.labelLevel = QLabel(self)
